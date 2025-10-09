@@ -1,1 +1,28 @@
-@import "tailwindcss";
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@100;300;400;500;600;700&display=swap");
+
+* {
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+  outline: none;
+  text-decoration: none;
+  border: none;
+}
+html {
+  scroll-behavior: smooth; /* Enables smooth scrolling for the entire page */
+}
+
+body {
+  font-family: "Poppins", sans-serif;
+}
+
+:root {
+  /* Navbar */
+  --nav-bg: #fff2e9;
+
+  /* Hero section */
+  --hero-bg: #ffffff;
+  --hero-text: #ff781f;
+  --hero-sub-text: #272727;
+  --hero-sub-text-span: #4e4e4e;
+}
