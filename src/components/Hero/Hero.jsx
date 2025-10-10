@@ -1,9 +1,10 @@
 import React from 'react'
+import { NavLink } from 'react-router-dom'
 
 const Hero = () => {
   return (
-    <div className='heroSection'>
-        
+    <div>
+        <NavLink to="/onboard">Get Stated</NavLink>
     </div>
   )
 }
