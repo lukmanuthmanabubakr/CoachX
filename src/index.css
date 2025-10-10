@@ -18,14 +18,12 @@ body {
 
 :root {
   /* Navbar */
-  --nav-bg: #fff2e9;
-
-  /* Hero section */
-  --hero-bg: #ffffff;
-  --hero-text: #ff781f;
-  --hero-sub-text: #272727;
+  --welcome-bg: #fff2e9;
+  --welcome-des-bg: #fff2e9;
 
   /* Onboarding */
-  --onboard-bg: linear-gradient(90deg, #ffb685, #ff9d5c);
-  --onboard-accent: #ffffff;
+  --button-bgs: #fff9f4;
+  --button-bg: #ff781f;
+  --button-text: #190c03;
+  --small-semi-circle: #fff2e9;
 }
