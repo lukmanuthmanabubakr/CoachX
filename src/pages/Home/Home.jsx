@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import Img1 from "../../assets/onboard1.jpg";
 import Img2 from "../../assets/onboard2.jpg";
@@ -29,16 +29,26 @@ const slides = [
 const Home = () => {
   const [step, setStep] = useState(0);
   const [animating, setAnimating] = useState(false);
+  const [firstLoad, setFirstLoad] = useState(true);
+  const [imageLoaded, setImageLoaded] = useState(false); // 🆕
   const navigate = useNavigate();
+  const timerRef = useRef(null);
 
+  // ✅ Preload all slide images
   useEffect(() => {
-    if (step < slides.length - 1) {
-      const timer = setInterval(() => {
-        triggerNext();
-      }, 5000);
-      return () => clearInterval(timer);
+    slides.forEach((slide) => {
+      const img = new Image();
+      img.src = slide.image;
+    });
+  }, []);
+
+  // ✅ Automatically move to next slide
+  useEffect(() => {
+    if (imageLoaded && step < slides.length - 1) {
+      timerRef.current = setInterval(triggerNext, 5000);
     }
-  }, [step]);
+    return () => clearInterval(timerRef.current);
+  }, [step, imageLoaded]);
 
   const triggerNext = () => {
     if (step < slides.length - 1) {
@@ -46,28 +56,53 @@ const Home = () => {
       setTimeout(() => {
         setStep((prev) => prev + 1);
         setAnimating(false);
-      }, 700); // synced smooth duration
+      }, 700);
     }
   };
 
   const handleNext = () => {
-    if (step === slides.length - 1) navigate("/onboard");
-    else triggerNext();
+    clearInterval(timerRef.current);
+    if (step === slides.length - 1) {
+      navigate("/onboard", { replace: true });
+    } else {
+      triggerNext();
+    }
   };
 
-  const handleSkip = () => navigate("/onboard");
+  const handleSkip = () => {
+    clearInterval(timerRef.current);
+    navigate("/onboard", { replace: true });
+  };
+
+  // ✅ Disable animation until first image has loaded
+  const handleImageLoad = () => {
+    setImageLoaded(true);
+    setTimeout(() => setFirstLoad(false), 400); // smooth entry
+  };
 
   return (
-    <div className={`homeWrapper ${animating ? "slideOut" : "slideIn"}`}>
+    <div
+      className={`homeWrapper ${
+        firstLoad ? "" : animating ? "slideOut" : "slideIn"
+      }`}
+    >
       <div className="homeContainer">
         <div className="onboardImage">
-          <img src={slides[step].image} alt={slides[step].title} />
+          <img
+            src={slides[step].image}
+            alt={slides[step].title}
+            onLoad={handleImageLoad} // 🆕 detect when first image is ready
+            className={imageLoaded ? "fade-in" : "hidden"}
+          />
         </div>
 
         <div className="onboardContent">
           <div className="dotIndicator">
             {slides.map((_, i) => (
-              <span key={i} className={i === step ? "dot active" : "dot"}></span>
+              <span
+                key={i}
+                className={i === step ? "dot active" : "dot"}
+              ></span>
             ))}
           </div>
 

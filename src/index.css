@@ -26,4 +26,12 @@ body {
   --button-bg: #ff781f;
   --button-text: #190c03;
   --small-semi-circle: #fff2e9;
+
+  /* Main Onboarding */
+  --button-bg: #ff781f;
+  --login-link: #fff2e9;
+  --login-link-b: #ff781f;
+  --main-onboarding-text: #fff2e9;
+    --fade-orange: rgba(255, 120, 31, 0.6);
+  --fade-dark: rgba(0, 0, 0, 0.7);
 }
