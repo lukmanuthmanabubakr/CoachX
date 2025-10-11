@@ -1,12 +1,12 @@
 import React, { useState } from "react";
-import { useNavigate } from "react-router-dom";
-import "./signin.css";
-import { FaArrowLeft } from "react-icons/fa";
+import { motion } from "framer-motion";
 import { FcGoogle } from "react-icons/fc";
-import loginImg from "../../assets/onboardPage.jpg"; // 👈 update to your image path
+import "./signin.css";
+import logo from "../../assets/CoachX.svg";
+import loginImg from "../../assets/onboardPage.jpg";
+import { Link } from "react-router-dom";
 
 const SignIn = () => {
-  const navigate = useNavigate();
   const [form, setForm] = useState({ email: "", password: "" });
 
   const handleChange = (e) => {
@@ -19,28 +19,48 @@ const SignIn = () => {
     e.preventDefault();
     if (allFilled) {
       console.log("Logging in:", form);
-      // your login logic
     }
   };
 
   return (
-    <div className="signin-container">
-      {/* Left Side */}
-      <div className="signin-left">
-        <img src={loginImg} alt="Sign in visual" className="signin-image" />
-        <h2>The best platform to connect, create, and grow.</h2>
+    <motion.div
+      className="signin-container"
+      initial={{ opacity: 0, y: 40 }}
+      animate={{ opacity: 1, y: 0 }}
+      exit={{ opacity: 0, y: -40 }}
+      transition={{ duration: 0.6, ease: "easeOut" }}
+    >
+      {/* LEFT — IMAGE SECTION */}
+      <div
+        className="signin-left"
+        style={{ backgroundImage: `url(${loginImg})` }}
+      >
+        <div className="signin-overlay"></div>
+        <motion.div
+          className="signin-left-content"
+          initial={{ x: -40, opacity: 0 }}
+          animate={{ x: 0, opacity: 1 }}
+          transition={{ delay: 0.2, duration: 0.6 }}
+        >
+          <img src={logo} alt="CoachX Logo" className="signin-logo" />
+          <h2>Welcome Back</h2>
+          <p>Sign in to continue your journey on our platform.</p>
+        </motion.div>
       </div>
 
-      {/* Right Side */}
-      <div className="signin-right">
-        <div className="signin-card">
-          <button className="back-btn" onClick={() => navigate(-1)}>
-            <FaArrowLeft />
-          </button>
-
-          <h2 className="signin-heading">Welcome Back</h2>
-          <p className="signin-subtext">Sign in to continue your journey</p>
-
+      {/* RIGHT — FORM SECTION */}
+      <motion.div
+        className="signin-right"
+        initial={{ x: 40, opacity: 0 }}
+        animate={{ x: 0, opacity: 1 }}
+        transition={{ delay: 0.3, duration: 0.6 }}
+      >
+        <motion.div
+          className="signin-card"
+          initial={{ scale: 0.95, opacity: 0 }}
+          animate={{ scale: 1, opacity: 1 }}
+          transition={{ delay: 0.4, duration: 0.6 }}
+        >
           <form onSubmit={handleSubmit} className="signin-form">
             <label>Email</label>
             <input
@@ -59,6 +79,13 @@ const SignIn = () => {
               value={form.password}
               onChange={handleChange}
             />
+
+            {/* Forgot Password Link */}
+            <div className="forgot-password">
+              <Link to="/forgot-password" className="forgot-password-link">
+                Forgot Password?
+              </Link>
+            </div>
 
             <button
               type="submit"
@@ -80,13 +107,13 @@ const SignIn = () => {
 
           <p className="signin-link">
             Don’t have an account?{" "}
-            <a href="/signup" className="signin-link-text">
+            <Link to="/signup" className="signin-link-text">
               Sign Up
-            </a>
+            </Link>
           </p>
-        </div>
-      </div>
-    </div>
+        </motion.div>
+      </motion.div>
+    </motion.div>
   );
 };
 

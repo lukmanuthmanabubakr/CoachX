@@ -4,6 +4,7 @@ import "./register.css";
 import { FaArrowLeft } from "react-icons/fa";
 import { FcGoogle } from "react-icons/fc";
 import logo from "../../assets/Onboard.svg";
+import { Link } from "react-router-dom"; // ✅ add this at the top
 
 const Register = ({ role, setStep }) => {
   const [form, setForm] = useState({ name: "", email: "", password: "" });
@@ -24,10 +25,10 @@ const Register = ({ role, setStep }) => {
   return (
     <motion.div
       className="register-container"
-      initial={{ opacity: 0, y: 40 }}      // 👈 fade + slide up
+      initial={{ opacity: 0, y: 40 }} // 👈 fade + slide up
       animate={{ opacity: 1, y: 0 }}
       exit={{ opacity: 0, y: -40 }}
-      transition={{ duration: 0.6, ease: "easeOut" }}  // 👈 smooth timing
+      transition={{ duration: 0.6, ease: "easeOut" }} // 👈 smooth timing
     >
       {/* Left Info Section */}
       <div className="register-left">
@@ -112,9 +113,9 @@ const Register = ({ role, setStep }) => {
 
           <p className="signup-link">
             Already have an account?{" "}
-            <a href="/signin" className="signup-link-text">
+            <Link to="/signin" className="signup-link-text">
               Sign In
-            </a>
+            </Link>
           </p>
         </motion.div>
       </motion.div>
