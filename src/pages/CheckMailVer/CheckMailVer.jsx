@@ -1,7 +1,7 @@
 import React from "react";
 import { motion } from "framer-motion";
 import { Link } from "react-router-dom";
-import "./checkMailVer.css";
+import "./CheckMailVer.css";
 import logo from "../../assets/CoachX.svg";
 
 const CheckMailVer = () => {
