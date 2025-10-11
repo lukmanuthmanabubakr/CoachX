@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { motion } from "framer-motion";
 import { FcGoogle } from "react-icons/fc";
 import { FaEye, FaEyeSlash } from "react-icons/fa"; // 👁️ icons
-import "./signin.css";
+import "./SignIn.css";
 import logo from "../../assets/CoachX.svg";
 import loginImg from "../../assets/onboardPage.jpg";
 import { Link } from "react-router-dom";
