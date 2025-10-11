@@ -2,7 +2,6 @@ import React, { useState } from "react";
 import "./SignUp.css";
 import signUpImg from "../../assets/signUpImg.jpg";
 import logo from "../../assets/Onboard.svg";
-
 import Register from "../../components/Register/Register";
 
 const SignUp = () => {
@@ -11,14 +10,13 @@ const SignUp = () => {
 
   const handleRoleChange = (selectedRole) => {
     setRole(selectedRole);
-    setStep(selectedRole === "creator" ? 2 : 3);
+    setStep(2);
   };
 
   return (
     <div className={`signup-container ${step === 1 ? "signup-bg" : ""}`}>
       {step === 1 && (
         <div className="signup-wrapper">
-          {/* Left full image section */}
           <div className="signup-image-side">
             <img
               src={signUpImg}
@@ -27,7 +25,6 @@ const SignUp = () => {
             />
           </div>
 
-          {/* Right form section */}
           <div className="signup-form-side">
             <div className="signup-form">
               <img src={logo} alt="" className="logo" />
@@ -49,9 +46,9 @@ const SignUp = () => {
                     <input
                       type="radio"
                       name="role"
-                      value="subscriber"
-                      checked={role === "subscriber"}
-                      onChange={() => setRole("subscriber")}
+                      value="user"
+                      checked={role === "user"}
+                      onChange={() => setRole("user")}
                     />
                   </label>
                 </div>
@@ -69,7 +66,7 @@ const SignUp = () => {
         </div>
       )}
 
-      {step === 2 && <Register />}
+      {step === 2 && <Register role={role} />}
     </div>
   );
 };
