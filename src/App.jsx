@@ -7,6 +7,7 @@ import Onboard from "./pages/Onboard/Onboard";
 import SignUp from "./pages/SignUp/SignUp";
 import SignIn from "./pages/SignIn/SignIn";
 import CheckMailVer from "./pages/CheckMailVer/CheckMailVer";
+import ForgetPass from "./pages/ForgetPass/ForgetPass";
 
 const App = () => {
   const [showWelcome, setShowWelcome] = useState(true);
@@ -98,6 +99,19 @@ const App = () => {
               transition={{ duration: 0.5 }}
             >
               <CheckMailVer />
+            </motion.div>
+          }
+        />
+        <Route
+          path="/forgot-password"
+          element={
+            <motion.div
+              initial={{ opacity: 0, y: 50 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -50 }}
+              transition={{ duration: 0.5 }}
+            >
+              <ForgetPass />
             </motion.div>
           }
         />

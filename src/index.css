@@ -60,4 +60,12 @@ body {
   --check-verify-focus: #ff7a1f;
   --check-verify-card-bg: #ffffff;
   --check-verify-border: #ffd5b0;
+
+  --forget-pass-bg: #fff2e9;
+  --forget-pass-text: #5f5650;
+  --forget-pass-btn-bg: #ff8a2b;
+  --forget-pass-btn-text: #ffffff;
+  --forget-pass-focus: #ff7a1f;
+  --forget-pass-card-bg: #ffffff;
+  --forget-pass-border: #ffd5b0;
 }

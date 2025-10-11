@@ -1,0 +1,250 @@
+/* Layout */
+.forgot-container {
+  background-color: var(--check-verify-bg);
+  color: var(--check-verify-text);
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 2rem;
+  box-sizing: border-box;
+}
+
+/* Card */
+.forgot-card {
+  background-color: var(--check-verify-card-bg);
+  border: 1px solid var(--check-verify-border);
+  border-radius: 1.4rem;
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.05);
+  width: 100%;
+  max-width: 420px;
+  padding: 2.5rem 2rem;
+  text-align: center;
+  transition: all 0.3s ease;
+}
+
+/* Logo */
+.forgot-logo {
+  width: 110px;
+  margin-bottom: 1.4rem;
+}
+
+/* Headings */
+.forgot-card h2 {
+  font-size: 1.9rem;
+  font-weight: 700;
+  margin-bottom: 0.8rem;
+  color: #3a3836;
+}
+
+.forgot-desc {
+  font-size: 0.95rem;
+  line-height: 1.6;
+  margin-bottom: 1.8rem;
+  opacity: 0.85;
+}
+
+/* Form */
+.forgot-form {
+  display: flex;
+  flex-direction: column;
+  gap: 1.2rem;
+  margin-bottom: 1.5rem;
+}
+
+.forgot-form label {
+  text-align: left;
+  font-size: 0.9rem;
+  font-weight: 500;
+}
+
+.forgot-form input {
+  padding: 0.9rem;
+  border: 1.5px solid var(--check-verify-border);
+  border-radius: 0.9rem;
+  background-color: #fff;
+  font-size: 0.95rem;
+  outline: none;
+  transition: all 0.3s ease;
+}
+
+.forgot-form input:focus {
+  border-color: var(--check-verify-focus);
+  box-shadow: 0 0 0 2px rgba(255, 138, 43, 0.15);
+}
+
+/* Button */
+.forgot-btn {
+  background-color: var(--check-verify-btn-bg);
+  color: var(--check-verify-btn-text);
+  border: none;
+  border-radius: 0.9rem;
+  padding: 1rem;
+  font-weight: 600;
+  font-size: 1rem;
+  cursor: not-allowed;
+  opacity: 0.5;
+  transition: all 0.3s ease;
+}
+
+.forgot-btn.active {
+  opacity: 1;
+  cursor: pointer;
+}
+
+.forgot-btn.active:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 6px 14px rgba(255, 138, 43, 0.25);
+}
+
+/* Bottom Text */
+.forgot-bottom-text {
+  font-size: 0.9rem;
+}
+
+.forgot-link {
+  color: var(--check-verify-focus);
+  font-weight: 500;
+  text-decoration: none;
+}
+
+.forgot-link:hover {
+  text-decoration: underline;
+}
+
+/* ======================== */
+/* Responsive Adjustments   */
+/* ======================== */
+
+/* Medium devices (tablets) */
+@media (max-width: 768px) {
+  .forgot-card {
+    padding: 2rem 1.5rem;
+  }
+
+  .forgot-card h2 {
+    font-size: 1.6rem;
+  }
+
+  .forgot-logo {
+    width: 95px;
+  }
+}
+
+/* Small devices (phones ≤ 480px) */
+@media (max-width: 480px) {
+  .forgot-container {
+    padding: 1.5rem;
+  }
+
+  .forgot-card {
+    padding: 1.8rem 1.2rem;
+    border-radius: 1.1rem;
+  }
+
+  .forgot-logo {
+    width: 85px;
+    margin-bottom: 1rem;
+  }
+
+  .forgot-card h2 {
+    font-size: 1.4rem;
+  }
+
+  .forgot-desc {
+    font-size: 0.88rem;
+    margin-bottom: 1.5rem;
+  }
+
+  .forgot-form input {
+    padding: 0.8rem;
+    font-size: 0.9rem;
+  }
+
+  .forgot-btn {
+    font-size: 0.95rem;
+    padding: 0.9rem;
+  }
+
+  .forgot-bottom-text {
+    font-size: 0.85rem;
+  }
+}
+
+/* Extra small devices (≤ 360px, e.g. iPhone SE, small Androids) */
+@media (max-width: 360px) {
+  .forgot-container {
+    padding: 1.2rem;
+  }
+
+  .forgot-card {
+    padding: 1.5rem 1rem;
+  }
+
+  .forgot-logo {
+    width: 75px;
+    margin-bottom: 0.9rem;
+  }
+
+  .forgot-card h2 {
+    font-size: 1.25rem;
+  }
+
+  .forgot-desc {
+    font-size: 0.83rem;
+  }
+
+  .forgot-form label {
+    font-size: 0.85rem;
+  }
+
+  .forgot-form input {
+    font-size: 0.88rem;
+    padding: 0.75rem;
+  }
+
+  .forgot-btn {
+    font-size: 0.9rem;
+    padding: 0.85rem;
+  }
+
+  .forgot-bottom-text {
+    font-size: 0.8rem;
+  }
+}
+
+/* Very tiny screens (≤ 320px) */
+@media (max-width: 320px) {
+  .forgot-card {
+    padding: 1.2rem 0.9rem;
+    border-radius: 1rem;
+  }
+
+  .forgot-logo {
+    width: 70px;
+    margin-bottom: 0.8rem;
+  }
+
+  .forgot-card h2 {
+    font-size: 1.15rem;
+  }
+
+  .forgot-desc {
+    font-size: 0.8rem;
+    margin-bottom: 1.2rem;
+  }
+
+  .forgot-form input {
+    padding: 0.7rem;
+    font-size: 0.85rem;
+  }
+
+  .forgot-btn {
+    font-size: 0.88rem;
+    padding: 0.8rem;
+  }
+
+  .forgot-bottom-text {
+    font-size: 0.78rem;
+  }
+}
