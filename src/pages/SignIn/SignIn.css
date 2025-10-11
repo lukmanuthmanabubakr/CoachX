@@ -135,6 +135,35 @@
   box-shadow: 0 0 0 2px rgba(255, 138, 43, 0.15);
 }
 
+/* Password Field (Eye Icon) */
+.password-field {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.password-field input {
+  width: 100%;
+  padding-right: 2.5rem; /* space for the eye icon */
+}
+
+.password-toggle {
+  position: absolute;
+  right: 0.9rem;
+  top: 20%;
+  transform: translateY(15%); /* 👇 moves it slightly downward */
+  cursor: pointer;
+  color: #666;
+  font-size: 1.2rem;
+  transition: color 0.2s ease, transform 0.2s ease;
+}
+
+.password-toggle:hover {
+  color: var(--register-focus);
+  transform: translateY(15%) scale(1.1); /* small hover animation */
+}
+
+
 /* BUTTON */
 .signin-btn {
   margin-top: 1rem;

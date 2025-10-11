@@ -6,6 +6,7 @@ import WelcomeLogo from "./components/WelcomeLogo/WelcomeLogo";
 import Onboard from "./pages/Onboard/Onboard";
 import SignUp from "./pages/SignUp/SignUp";
 import SignIn from "./pages/SignIn/SignIn";
+import CheckMailVer from "./pages/checkMailVer/checkMailVer";
 
 const App = () => {
   const [showWelcome, setShowWelcome] = useState(true);
@@ -84,6 +85,19 @@ const App = () => {
               transition={{ duration: 0.5 }}
             >
               <SignIn />
+            </motion.div>
+          }
+        />
+        <Route
+          path="/checkmailver"
+          element={
+            <motion.div
+              initial={{ opacity: 0, y: 50 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -50 }}
+              transition={{ duration: 0.5 }}
+            >
+              <CheckMailVer />
             </motion.div>
           }
         />

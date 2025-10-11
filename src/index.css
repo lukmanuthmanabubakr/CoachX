@@ -52,4 +52,12 @@ body {
   --register-input-bg: #fff;
   --register-input-border: #ffd5b0;
   --register-section-bg: #fff4eb;
+
+  --check-verify-bg: #fff2e9;
+  --check-verify-text: #5f5650;
+  --check-verify-btn-bg: #ff8a2b;
+  --check-verify-btn-text: #ffffff;
+  --check-verify-focus: #ff7a1f;
+  --check-verify-card-bg: #ffffff;
+  --check-verify-border: #ffd5b0;
 }

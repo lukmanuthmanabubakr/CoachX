@@ -1,23 +1,46 @@
 import React, { useState } from "react";
-import { motion } from "framer-motion"; // 👈 import motion
+import { AnimatePresence, motion } from "framer-motion";
 import "./register.css";
 import { FaArrowLeft } from "react-icons/fa";
 import { FcGoogle } from "react-icons/fc";
+import { FaEye, FaEyeSlash } from "react-icons/fa";
 import logo from "../../assets/Onboard.svg";
-import { Link } from "react-router-dom"; // ✅ add this at the top
+import { Link } from "react-router-dom";
+
 
 const Register = ({ role, setStep }) => {
   const [form, setForm] = useState({ name: "", email: "", password: "" });
+  const [showPassword, setShowPassword] = useState(false);
+  const [strength, setStrength] = useState("");
 
   const handleChange = (e) => {
-    setForm({ ...form, [e.target.name]: e.target.value });
+    const { name, value } = e.target;
+    setForm({ ...form, [name]: value });
+
+    if (name === "password") checkStrength(value);
+  };
+
+  const togglePassword = () => setShowPassword((prev) => !prev);
+
+  const checkStrength = (password) => {
+    let score = 0;
+    if (password.length >= 8) score++;
+    if (/[A-Z]/.test(password)) score++;
+    if (/[0-9]/.test(password)) score++;
+    if (/[^A-Za-z0-9]/.test(password)) score++;
+
+    if (score <= 1) setStrength("Weak");
+    else if (score === 2 || score === 3) setStrength("Medium");
+    else if (score >= 4) setStrength("Strong");
+    else setStrength("");
   };
 
   const allFilled = form.name && form.email && form.password;
+  const isStrongPassword = strength === "Strong";
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    if (allFilled) {
+    if (allFilled && isStrongPassword) {
       console.log("Registering user:", { ...form, role });
     }
   };
@@ -25,10 +48,10 @@ const Register = ({ role, setStep }) => {
   return (
     <motion.div
       className="register-container"
-      initial={{ opacity: 0, y: 40 }} // 👈 fade + slide up
+      initial={{ opacity: 0, y: 40 }}
       animate={{ opacity: 1, y: 0 }}
       exit={{ opacity: 0, y: -40 }}
-      transition={{ duration: 0.6, ease: "easeOut" }} // 👈 smooth timing
+      transition={{ duration: 0.6, ease: "easeOut" }}
     >
       {/* Left Info Section */}
       <div className="register-left">
@@ -85,18 +108,45 @@ const Register = ({ role, setStep }) => {
             />
 
             <label>Password</label>
-            <input
-              type="password"
-              name="password"
-              placeholder="Create a password"
-              value={form.password}
-              onChange={handleChange}
-            />
+            <div className="password-wrapper">
+              <input
+                type={showPassword ? "text" : "password"}
+                name="password"
+                placeholder="Create a password"
+                value={form.password}
+                onChange={handleChange}
+              />
+              <button
+                type="button"
+                className="toggle-password"
+                onClick={togglePassword}
+                aria-label="Toggle password visibility"
+              >
+                {showPassword ? <FaEyeSlash /> : <FaEye />}
+              </button>
+            </div>
+
+            <AnimatePresence mode="wait">
+              {form.password && (
+                <motion.div
+                  key={strength} // re-animates on strength change
+                  initial={{ opacity: 0, y: 10 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={{ opacity: 0, y: -10 }}
+                  transition={{ duration: 0.3, ease: "easeOut" }}
+                  className={`password-strength ${strength.toLowerCase()}`}
+                >
+                  Strength: <span>{strength}</span>
+                </motion.div>
+              )}
+            </AnimatePresence>
 
             <button
               type="submit"
-              className={`register-btn ${allFilled ? "active" : ""}`}
-              disabled={!allFilled}
+              className={`register-btn ${
+                allFilled && isStrongPassword ? "active" : ""
+              }`}
+              disabled={!allFilled || !isStrongPassword}
             >
               Sign Up
             </button>

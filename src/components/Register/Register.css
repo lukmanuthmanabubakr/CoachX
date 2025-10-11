@@ -127,6 +127,60 @@
   box-shadow: 0 0 0 2px rgba(255, 138, 43, 0.15);
 }
 
+/* Password Field */
+.password-wrapper {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.password-wrapper input {
+  width: 100%;
+  padding-right: 3rem; /* space for icon */
+}
+
+.toggle-password {
+  position: absolute;
+  right: 1rem;
+  background: none;
+  border: none;
+  color: var(--register-focus);
+  font-size: 1.1rem;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  transition: color 0.3s ease;
+}
+
+.toggle-password:hover {
+  color: var(--register-btn-bg);
+}
+
+/* Password Strength Indicator */
+.password-strength {
+  font-size: 0.85rem;
+  margin-top: 0.4rem;
+  font-weight: 500;
+  transition: color 0.3s ease;
+}
+
+.password-strength span {
+  font-weight: 600;
+}
+
+.password-strength.weak {
+  color: var(--error-color, #e63946);
+}
+
+.password-strength.medium {
+  color: var(--warning-color, #f4a261);
+}
+
+.password-strength.strong {
+  color: var(--success-color, #2a9d8f);
+}
+
+
 /* 🟠 Button */
 .register-btn {
   margin-top: 1rem;
