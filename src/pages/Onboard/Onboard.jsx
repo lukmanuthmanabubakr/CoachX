@@ -1,5 +1,5 @@
 import React from "react";
-import bgImage from "../../assets/onboardPage.webp";
+import bgImage from "../../assets/onboardPage-min.jpg";
 import logo from "../../assets/CoachX.svg";
 import subLogo from "../../assets/mainLogo.svg";
 import { NavLink, useNavigate } from "react-router-dom";

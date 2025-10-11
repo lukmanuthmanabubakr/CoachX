@@ -1,8 +1,8 @@
 import React, { useState, useEffect, useRef } from "react";
 import { useNavigate } from "react-router-dom";
-import Img1 from "../../assets/onboard1.webp";
-import Img2 from "../../assets/onboard2.webp";
-import Img3 from "../../assets/onboard3.webp";
+import Img1 from "../../assets/onboard1-min.jpg";
+import Img2 from "../../assets/onboard2-min.jpg";
+import Img3 from "../../assets/onboard3-min.jpg";
 import "./Home.css";
 
 const slides = [

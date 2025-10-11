@@ -89,7 +89,7 @@ const App = () => {
           }
         />
         <Route
-          path="/checkmailver"
+          path="/check-mail-verification"
           element={
             <motion.div
               initial={{ opacity: 0, y: 50 }}
