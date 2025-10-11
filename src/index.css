@@ -43,4 +43,13 @@ body {
   --signup-radio-border: #ff781f;
   --signup-radio-selected: #ff781f;
   --signup-section-bg: #fff2e9;
+
+  --register-bg: #fff8f3;
+  --register-text: #1a0d05;
+  --register-btn-bg: #ff8a2b;
+  --register-btn-text: #fff;
+  --register-focus: #ff7a1f;
+  --register-input-bg: #fff;
+  --register-input-border: #ffd5b0;
+  --register-section-bg: #fff4eb;
 }

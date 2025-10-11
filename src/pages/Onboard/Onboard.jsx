@@ -34,7 +34,7 @@ const Onboard = () => {
 
         <p className="loginText">
           Already have an account?{" "}
-          <NavLink to="/login" className="loginLink">
+          <NavLink to="/signin" className="loginLink">
             Login
           </NavLink>
         </p>

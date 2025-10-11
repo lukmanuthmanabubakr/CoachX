@@ -5,11 +5,15 @@
   font-family: "Poppins", sans-serif;
 }
 
+.register-step {
+  display: block !important;
+  background-color: var(--register-bg);
+}
+
 /* Only Step 1 will have this background */
 .signup-bg {
   background-color: var(--signup-bg);
 }
-
 
 /* ==== WRAPPER (IMAGE + FORM SIDE) ==== */
 .signup-wrapper {
@@ -51,7 +55,7 @@
     -moz-transform: translateY(-40px);
     -ms-transform: translateY(-40px);
     -o-transform: translateY(-40px);
-}
+  }
   60% {
     opacity: 0.8;
     transform: translateY(0);
@@ -60,7 +64,7 @@
     -moz-transform: translateY(0);
     -ms-transform: translateY(0);
     -o-transform: translateY(0);
-}
+  }
   100% {
     opacity: 1;
     transform: translateY(0);
@@ -69,7 +73,7 @@
     -moz-transform: translateY(0);
     -ms-transform: translateY(0);
     -o-transform: translateY(0);
-}
+  }
 }
 
 /* ==== RIGHT FORM SIDE ==== */

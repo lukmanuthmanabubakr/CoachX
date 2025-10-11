@@ -5,6 +5,7 @@ import Home from "./pages/Home/Home";
 import WelcomeLogo from "./components/WelcomeLogo/WelcomeLogo";
 import Onboard from "./pages/Onboard/Onboard";
 import SignUp from "./pages/SignUp/SignUp";
+import SignIn from "./pages/SignIn/SignIn";
 
 const App = () => {
   const [showWelcome, setShowWelcome] = useState(true);
@@ -70,6 +71,19 @@ const App = () => {
               transition={{ duration: 0.5 }}
             >
               <SignUp />
+            </motion.div>
+          }
+        />
+        <Route
+          path="/signin"
+          element={
+            <motion.div
+              initial={{ opacity: 0, y: 50 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -50 }}
+              transition={{ duration: 0.5 }}
+            >
+              <SignIn />
             </motion.div>
           }
         />

@@ -14,7 +14,11 @@ const SignUp = () => {
   };
 
   return (
-    <div className={`signup-container ${step === 1 ? "signup-bg" : ""}`}>
+    <div
+      className={`signup-container ${
+        step === 1 ? "signup-bg" : "register-step"
+      }`}
+    >
       {step === 1 && (
         <div className="signup-wrapper">
           <div className="signup-image-side">
@@ -29,6 +33,7 @@ const SignUp = () => {
             <div className="signup-form">
               <img src={logo} alt="" className="logo" />
               <p className="signup-title">Choose A Role</p>
+
               <form>
                 <div className="radio-group">
                   <label>
@@ -52,6 +57,7 @@ const SignUp = () => {
                     />
                   </label>
                 </div>
+
                 <button
                   type="button"
                   disabled={!role}
@@ -66,7 +72,8 @@ const SignUp = () => {
         </div>
       )}
 
-      {step === 2 && <Register role={role} />}
+      {/* Pass setStep to Register so it can go back */}
+      {step === 2 && <Register role={role} setStep={setStep} />}
     </div>
   );
 };
