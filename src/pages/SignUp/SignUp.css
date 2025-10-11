@@ -1,11 +1,15 @@
-/* ==== GLOBAL CONTAINER ==== */
 .signup-container {
   width: 100%;
   height: 100vh;
   display: flex;
-  background-color: var(--signup-bg);
   font-family: "Poppins", sans-serif;
 }
+
+/* Only Step 1 will have this background */
+.signup-bg {
+  background-color: var(--signup-bg);
+}
+
 
 /* ==== WRAPPER (IMAGE + FORM SIDE) ==== */
 .signup-wrapper {

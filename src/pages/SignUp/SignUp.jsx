@@ -1,7 +1,9 @@
 import React, { useState } from "react";
 import "./SignUp.css";
 import signUpImg from "../../assets/signUpImg.jpg";
-import logo from "../../assets/mainLogo.svg";
+import logo from "../../assets/Onboard.svg";
+
+import Register from "../../components/Register/Register";
 
 const SignUp = () => {
   const [role, setRole] = useState("");
@@ -13,18 +15,22 @@ const SignUp = () => {
   };
 
   return (
-    <div className="signup-container">
+    <div className={`signup-container ${step === 1 ? "signup-bg" : ""}`}>
       {step === 1 && (
         <div className="signup-wrapper">
           {/* Left full image section */}
           <div className="signup-image-side">
-            <img src={signUpImg} alt="CoachX" className="signup-img animate-img" />
+            <img
+              src={signUpImg}
+              alt="CoachX"
+              className="signup-img animate-img"
+            />
           </div>
 
           {/* Right form section */}
           <div className="signup-form-side">
             <div className="signup-form">
-              <img src={logo} alt="" className="logo"/>
+              <img src={logo} alt="" className="logo" />
               <p className="signup-title">Choose A Role</p>
               <form>
                 <div className="radio-group">
@@ -63,21 +69,7 @@ const SignUp = () => {
         </div>
       )}
 
-      {step === 2 && (
-        <div className="signup-section">
-          <h2>Creator Section</h2>
-          <p>Here you can create your creator account and manage content.</p>
-          <button onClick={() => setStep(1)}>Back</button>
-        </div>
-      )}
-
-      {step === 3 && (
-        <div className="signup-section">
-          <h2>Subscriber Section</h2>
-          <p>Here you can subscribe and manage your subscriptions.</p>
-          <button onClick={() => setStep(1)}>Back</button>
-        </div>
-      )}
+      {step === 2 && <Register />}
     </div>
   );
 };
