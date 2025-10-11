@@ -6,7 +6,7 @@ import WelcomeLogo from "./components/WelcomeLogo/WelcomeLogo";
 import Onboard from "./pages/Onboard/Onboard";
 import SignUp from "./pages/SignUp/SignUp";
 import SignIn from "./pages/SignIn/SignIn";
-import CheckMailVer from "./pages/checkMailVer/checkMailVer";
+import CheckMailVer from "./pages/CheckMailVer/CheckMailVer";
 
 const App = () => {
   const [showWelcome, setShowWelcome] = useState(true);
