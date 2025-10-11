@@ -7,7 +7,6 @@ import { FaEye, FaEyeSlash } from "react-icons/fa";
 import logo from "../../assets/Onboard.svg";
 import { Link } from "react-router-dom";
 
-
 const Register = ({ role, setStep }) => {
   const [form, setForm] = useState({ name: "", email: "", password: "" });
   const [showPassword, setShowPassword] = useState(false);
