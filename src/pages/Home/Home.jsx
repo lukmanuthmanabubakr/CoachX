@@ -42,7 +42,6 @@ const Home = () => {
     });
   }, []);
 
-  // ✅ Automatically move to next slide
   useEffect(() => {
     if (imageLoaded && step < slides.length - 1) {
       timerRef.current = setInterval(triggerNext, 5000);

@@ -32,6 +32,15 @@ body {
   --login-link: #fff2e9;
   --login-link-b: #ff781f;
   --main-onboarding-text: #fff2e9;
-    --fade-orange: rgba(255, 120, 31, 0.6);
+  --fade-orange: rgba(255, 120, 31, 0.6);
   --fade-dark: rgba(0, 0, 0, 0.7);
+
+  /* signup page */
+  --signup-bg: #fff7f0;
+  --signup-text: #190c03;
+  --signup-button-bg: #ff781f;
+  --signup-button-text: #fff;
+  --signup-radio-border: #ff781f;
+  --signup-radio-selected: #ff781f;
+  --signup-section-bg: #fff2e9;
 }

@@ -4,6 +4,7 @@ import { AnimatePresence, motion } from "framer-motion";
 import Home from "./pages/Home/Home";
 import WelcomeLogo from "./components/WelcomeLogo/WelcomeLogo";
 import Onboard from "./pages/Onboard/Onboard";
+import SignUp from "./pages/SignUp/SignUp";
 
 const App = () => {
   const [showWelcome, setShowWelcome] = useState(true);
@@ -12,12 +13,12 @@ const App = () => {
   const location = useLocation();
 
   useEffect(() => {
+    if (location.pathname !== "/") return; // exit if not home
+
     const fadeTimer = setTimeout(() => setFadeOut(true), 2200);
     const hideTimer = setTimeout(() => {
       setShowWelcome(false);
-      if (location.pathname !== "/onboard") {
-        navigate("/", { replace: true });
-      }
+      navigate("/", { replace: true }); // only redirect from /
     }, 3000);
 
     return () => {
@@ -26,7 +27,9 @@ const App = () => {
     };
   }, [navigate, location.pathname]);
 
-  if (showWelcome) return <WelcomeLogo fadeOut={fadeOut} />;
+  if (location.pathname === "/" && showWelcome) {
+    return <WelcomeLogo fadeOut={fadeOut} />;
+  }
 
   return (
     <AnimatePresence mode="wait">
@@ -35,9 +38,9 @@ const App = () => {
           path="/"
           element={
             <motion.div
-              initial={{ opacity: 0, y: 50 }} // start slightly below
-              animate={{ opacity: 1, y: 0 }} // move to normal position
-              exit={{ opacity: 0, y: -50 }} // exit upwards if leaving
+              initial={{ opacity: 0, y: 50 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -50 }}
               transition={{ duration: 0.6, ease: "easeOut" }}
             >
               <Home />
@@ -54,6 +57,19 @@ const App = () => {
               transition={{ duration: 0.5 }}
             >
               <Onboard />
+            </motion.div>
+          }
+        />
+        <Route
+          path="/signup"
+          element={
+            <motion.div
+              initial={{ opacity: 0, y: 50 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -50 }}
+              transition={{ duration: 0.5 }}
+            >
+              <SignUp />
             </motion.div>
           }
         />
