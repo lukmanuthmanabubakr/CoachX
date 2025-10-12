@@ -4,7 +4,6 @@ import { FcGoogle } from "react-icons/fc";
 import { FaEye, FaEyeSlash } from "react-icons/fa"; // 👁️ icons
 import "./SignIn.css";
 import logo from "../../assets/CoachX.svg";
-import loginImg from "../../assets/testignfour.jpeg";
 import { Link } from "react-router-dom";
 
 const SignIn = () => {
@@ -35,7 +34,6 @@ const SignIn = () => {
       {/* LEFT — IMAGE SECTION */}
       <div
         className="signin-left"
-        style={{ backgroundImage: `url(${loginImg})` }}
       >
         <div className="signin-overlay"></div>
         <motion.div
