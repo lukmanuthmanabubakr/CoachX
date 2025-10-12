@@ -9,6 +9,7 @@ import SignIn from "./pages/SignIn/SignIn";
 import CheckMailVer from "./pages/CheckMailVer/CheckMailVer";
 import ForgetPass from "./pages/ForgetPass/ForgetPass";
 import ResetPass from "./pages/ResetPass/ResetPass";
+import UploadWelcomeImage from "./pages/UploadWelcomeImage/UploadWelcomeImage";
 
 const App = () => {
   const [showWelcome, setShowWelcome] = useState(true);
@@ -126,6 +127,19 @@ const App = () => {
               transition={{ duration: 0.5 }}
             >
               <ResetPass />
+            </motion.div>
+          }
+        />
+        <Route
+          path="/upload-welcome-image"
+          element={
+            <motion.div
+              initial={{ opacity: 0, y: 50 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -50 }}
+              transition={{ duration: 0.5 }}
+            >
+              <UploadWelcomeImage />
             </motion.div>
           }
         />

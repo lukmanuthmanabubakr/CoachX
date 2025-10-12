@@ -76,4 +76,12 @@ body {
   --reset-pass-focus: #ff7a1f;
   --reset-pass-card-bg: #ffffff;
   --reset-pass-border: #ffd5b0;
+
+  --upload-welcome-bg: #fff2e9;
+  --upload-text: #5f5650;
+  --upload-btn-bg: #ff8a2b;
+  --upload-btn-text: #ffffff;
+  --upload-btn-focus: #ff7a1f;
+  --upload-card-bg: #ffffff;
+  --upload-border: #ffd5b0;
 }
