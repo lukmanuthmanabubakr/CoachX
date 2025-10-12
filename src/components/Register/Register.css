@@ -111,6 +111,11 @@
   font-weight: 500;
   font-size: 0.9rem;
 }
+.register-form .cPass {
+  font-weight: 500;
+  font-size: 0.9rem;
+  margin-top: 0.5rem;
+}
 
 .register-form input {
   padding: 0.9rem;
@@ -179,6 +184,14 @@
 .password-strength.strong {
   color: var(--success-color, #2a9d8f);
 }
+
+.error-text {
+  color: var(--error-color, #e63946);
+  font-size: 0.85rem;
+  margin-top: 0.3rem;
+  font-weight: 500;
+}
+
 
 
 /* 🟠 Button */

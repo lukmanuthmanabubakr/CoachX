@@ -1,5 +1,5 @@
 import React from "react";
-import bgImage from "../../assets/testingtwo.jpeg";
+import bgImage from "../../assets/gym2.jpeg";
 import logo from "../../assets/CoachX.svg";
 import subLogo from "../../assets/mainLogo.svg";
 import { NavLink, useNavigate } from "react-router-dom";

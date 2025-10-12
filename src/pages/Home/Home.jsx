@@ -1,28 +1,28 @@
 import React, { useState, useEffect, useRef } from "react";
 import { useNavigate } from "react-router-dom";
-import Img1 from "../../assets/testingOne.jpeg";
-import Img2 from "../../assets/testingtwo.jpeg";
-import Img3 from "../../assets/testingthree.jpeg";
+import Img1 from "../../assets/gym1.jpeg";
+import Img2 from "../../assets/gym2.jpeg";
+import Img3 from "../../assets/gym3.jpeg";
 import "./Home.css";
 
 const slides = [
   {
     id: 1,
     image: Img1,
-    title: "Work out anywhere with the help of CoachX",
-    desc: "Your personalized fitness and growth journey starts here.",
+    title: "Power your passion. Inspire the world.",
+    desc: "CoachX connects elite creators and everyday athletes. Share your journey, build your brand, and get rewarded for every rep.",
   },
   {
     id: 2,
     image: Img2,
-    title: "Track Your Progress",
-    desc: "Easily monitor your milestones and achievements in one place.",
+    title: "Discover the creators shaping the future of fitness.",
+    desc: "Explore premium workouts, nutrition plans, and real stories that move you. Follow those who push boundaries — and become one yourself.",
   },
   {
     id: 3,
     image: Img3,
-    title: "Connect and Grow",
-    desc: "Join our community of learners and coaches to level up faster.",
+    title: "AI that understands your goals",
+    desc: "Scan your meals, optimize your plan, and unlock insights built for your body. Every detail of CoachX is designed to make you better.",
   },
 ];
 

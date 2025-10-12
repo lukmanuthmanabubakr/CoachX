@@ -7,11 +7,18 @@ import { FaEye, FaEyeSlash } from "react-icons/fa";
 import logo from "../../assets/Onboard.svg";
 import { Link } from "react-router-dom";
 
-
 const Register = ({ role, setStep }) => {
-  const [form, setForm] = useState({ name: "", email: "", password: "" });
+  const [form, setForm] = useState({
+    name: "",
+    email: "",
+    password: "",
+    confirmPassword: "",
+  });
+
   const [showPassword, setShowPassword] = useState(false);
+  const [showConfirm, setShowConfirm] = useState(false);
   const [strength, setStrength] = useState("");
+  const [error, setError] = useState("");
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -21,6 +28,7 @@ const Register = ({ role, setStep }) => {
   };
 
   const togglePassword = () => setShowPassword((prev) => !prev);
+  const toggleConfirm = () => setShowConfirm((prev) => !prev);
 
   const checkStrength = (password) => {
     let score = 0;
@@ -35,12 +43,21 @@ const Register = ({ role, setStep }) => {
     else setStrength("");
   };
 
-  const allFilled = form.name && form.email && form.password;
+  const allFilled =
+    form.name && form.email && form.password && form.confirmPassword;
   const isStrongPassword = strength === "Strong";
+  const passwordsMatch =
+    form.password && form.confirmPassword && form.password === form.confirmPassword;
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    if (allFilled && isStrongPassword) {
+    if (!passwordsMatch) {
+      setError("Passwords do not match");
+      return;
+    }
+    setError("");
+
+    if (allFilled && isStrongPassword && passwordsMatch) {
       console.log("Registering user:", { ...form, role });
     }
   };
@@ -53,7 +70,7 @@ const Register = ({ role, setStep }) => {
       exit={{ opacity: 0, y: -40 }}
       transition={{ duration: 0.6, ease: "easeOut" }}
     >
-      {/* Left Info Section */}
+      {/* Left Section */}
       <div className="register-left">
         <motion.div
           className="register-left-content"
@@ -71,7 +88,7 @@ const Register = ({ role, setStep }) => {
         </motion.div>
       </div>
 
-      {/* Right Form Section */}
+      {/* Right Section */}
       <motion.div
         className="register-right"
         initial={{ x: 40, opacity: 0 }}
@@ -107,6 +124,7 @@ const Register = ({ role, setStep }) => {
               onChange={handleChange}
             />
 
+            {/* Password */}
             <label>Password</label>
             <div className="password-wrapper">
               <input
@@ -126,10 +144,11 @@ const Register = ({ role, setStep }) => {
               </button>
             </div>
 
+            {/* Password Strength */}
             <AnimatePresence mode="wait">
               {form.password && (
                 <motion.div
-                  key={strength} // re-animates on strength change
+                  key={strength}
                   initial={{ opacity: 0, y: 10 }}
                   animate={{ opacity: 1, y: 0 }}
                   exit={{ opacity: 0, y: -10 }}
@@ -141,12 +160,36 @@ const Register = ({ role, setStep }) => {
               )}
             </AnimatePresence>
 
+            {/* Confirm Password */}
+            <label className="cPass">Confirm Password</label>
+            <div className="password-wrapper">
+              <input
+                type={showConfirm ? "text" : "password"}
+                name="confirmPassword"
+                placeholder="Confirm your password"
+                value={form.confirmPassword}
+                onChange={handleChange}
+              />
+              <button
+                type="button"
+                className="toggle-password"
+                onClick={toggleConfirm}
+                aria-label="Toggle confirm password visibility"
+              >
+                {showConfirm ? <FaEyeSlash /> : <FaEye />}
+              </button>
+            </div>
+
+            {/* Error if passwords don't match */}
+            {error && <p className="error-text">{error}</p>}
+
+            {/* Submit Button */}
             <button
               type="submit"
               className={`register-btn ${
-                allFilled && isStrongPassword ? "active" : ""
+                allFilled && isStrongPassword && passwordsMatch ? "active" : ""
               }`}
-              disabled={!allFilled || !isStrongPassword}
+              disabled={!allFilled || !isStrongPassword || !passwordsMatch}
             >
               Sign Up
             </button>

@@ -32,7 +32,7 @@ const SignUp = () => {
           <div className="signup-form-side">
             <div className="signup-form">
               <img src={logo} alt="" className="logo" />
-              <p className="signup-title">Choose A Role</p>
+              <p className="signup-title">Who are you</p>
 
               <form>
                 <div className="radio-group">
