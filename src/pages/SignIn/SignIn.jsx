@@ -3,7 +3,7 @@ import { motion } from "framer-motion";
 import { FcGoogle } from "react-icons/fc";
 import { FaEye, FaEyeSlash } from "react-icons/fa"; // 👁️ icons
 import "./SignIn.css";
-import logo from "../../assets/CoachX.svg";
+import logo from "../../assets/Onboard.svg";
 import { Link } from "react-router-dom";
 
 const SignIn = () => {

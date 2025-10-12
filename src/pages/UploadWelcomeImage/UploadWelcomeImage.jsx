@@ -1,9 +1,13 @@
 import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import "./UploadWelcomeImage.css";
 import defaultAvatar from "../../assets/avatar.png";
 
 const UploadWelcomeImage = () => {
   const [image, setImage] = useState(null);
+  const navigate = useNavigate();
+  const currentStep = 1;
+  const totalSteps = 6;
 
   const handleImageChange = (e) => {
     if (e.target.files && e.target.files[0]) {
@@ -11,11 +15,19 @@ const UploadWelcomeImage = () => {
     }
   };
 
+  const handleNext = () => {
+    // Smoothly navigate to Step 2 (Gender)
+    navigate("/select-gender");
+  };
+
   return (
     <div className="upload-container">
       <div className="upload-card">
-        {/* 🔼 Top Section */}
+        {/* Step Tracker */}
         <div className="upload-top">
+          <div className="step-indicator">
+            Step {currentStep} of {totalSteps}
+          </div>
           <h1>Welcome</h1>
           <p>Add your profile picture so others can see you</p>
 
@@ -37,15 +49,18 @@ const UploadWelcomeImage = () => {
           </div>
         </div>
 
-        {/* 🔽 Bottom Section */}
+        {/* Bottom Section */}
         <div className="upload-bottom">
           <button
             className={`upload-btn ${!image ? "disabled" : ""}`}
+            onClick={handleNext}
             disabled={!image}
           >
             Upload
           </button>
-          <p className="skip-text">Skip for now</p>
+          <p className="skip-text" onClick={handleNext}>
+            Skip for now
+          </p>
         </div>
       </div>
     </div>

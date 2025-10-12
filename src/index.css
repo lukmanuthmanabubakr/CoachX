@@ -84,4 +84,13 @@ body {
   --upload-btn-focus: #ff7a1f;
   --upload-card-bg: #ffffff;
   --upload-border: #ffd5b0;
+
+  /* Gender Page */
+  --gender-bg: #fff2e9;
+  --gender-card-bg: #ffffff;
+  --gender-text: #5f5650;
+  --gender-border: #ffd5b0;
+  --gender-btn-bg: #ff8a2b;
+  --gender-btn-text: #ffffff;
+  --gender-btn-focus: #ff7a1f;
 }
