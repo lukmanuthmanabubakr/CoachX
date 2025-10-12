@@ -68,4 +68,12 @@ body {
   --forget-pass-focus: #ff7a1f;
   --forget-pass-card-bg: #ffffff;
   --forget-pass-border: #ffd5b0;
+
+  --reset-pass-bg: #fff2e9;
+  --reset-pass-text: #5f5650;
+  --reset-pass-btn-bg: #ff8a2b;
+  --reset-pass-btn-text: #ffffff;
+  --reset-pass-focus: #ff7a1f;
+  --reset-pass-card-bg: #ffffff;
+  --reset-pass-border: #ffd5b0;
 }
