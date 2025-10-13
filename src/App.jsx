@@ -187,7 +187,7 @@ const App = () => {
           }
         />
         <Route
-          path="/verify-email"
+          path="/verify-email/:verificationToken"
           element={
             <motion.div
               initial={{ opacity: 0, y: 50 }}
