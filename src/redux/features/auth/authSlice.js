@@ -1,4 +1,5 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
+import toast from "react-hot-toast";
 import authService from "./authService";
 
 // Get user from localStorage
@@ -13,50 +14,66 @@ const initialState = {
 };
 
 // Signup
-export const signup = createAsyncThunk("auth/signup", async (userData, thunkAPI) => {
-  try {
-    return await authService.signup(userData);
-  } catch (error) {
-    const message =
-      (error.response && error.response.data && error.response.data.message) ||
-      error.message ||
-      error.toString();
-    return thunkAPI.rejectWithValue(message);
+export const signup = createAsyncThunk(
+  "auth/signup",
+  async (userData, thunkAPI) => {
+    try {
+      return await authService.signup(userData);
+    } catch (error) {
+      const message =
+        (error.response &&
+          error.response.data &&
+          error.response.data.message) ||
+        error.message ||
+        error.toString();
+      return thunkAPI.rejectWithValue(message);
+    }
   }
-});
+);
 
 // Login
-export const login = createAsyncThunk("auth/login", async (userData, thunkAPI) => {
-  try {
-    return await authService.login(userData);
-  } catch (error) {
-    const message =
-      (error.response && error.response.data && error.response.data.message) ||
-      error.message ||
-      error.toString();
-    return thunkAPI.rejectWithValue(message);
+export const login = createAsyncThunk(
+  "auth/login",
+  async (userData, thunkAPI) => {
+    try {
+      return await authService.login(userData);
+    } catch (error) {
+      const message =
+        (error.response &&
+          error.response.data &&
+          error.response.data.message) ||
+        error.message ||
+        error.toString();
+      return thunkAPI.rejectWithValue(message);
+    }
   }
-});
+);
 
 // Forgot Password
-export const forgotPassword = createAsyncThunk("auth/forgotPassword", async (emailData, thunkAPI) => {
-  try {
-    return await authService.forgotPassword(emailData);
-  } catch (error) {
-    const message = error.response?.data?.message || error.message;
-    return thunkAPI.rejectWithValue(message);
+export const forgotPassword = createAsyncThunk(
+  "auth/forgotPassword",
+  async (emailData, thunkAPI) => {
+    try {
+      return await authService.forgotPassword(emailData);
+    } catch (error) {
+      const message = error.response?.data?.message || error.message;
+      return thunkAPI.rejectWithValue(message);
+    }
   }
-});
+);
 
 // Reset Password
-export const resetPassword = createAsyncThunk("auth/resetPassword", async ({ token, passwordData }, thunkAPI) => {
-  try {
-    return await authService.resetPassword(token, passwordData);
-  } catch (error) {
-    const message = error.response?.data?.message || error.message;
-    return thunkAPI.rejectWithValue(message);
+export const resetPassword = createAsyncThunk(
+  "auth/resetPassword",
+  async ({ token, passwordData }, thunkAPI) => {
+    try {
+      return await authService.resetPassword(token, passwordData);
+    } catch (error) {
+      const message = error.response?.data?.message || error.message;
+      return thunkAPI.rejectWithValue(message);
+    }
   }
-});
+);
 
 // Logout
 export const logout = createAsyncThunk("auth/logout", async () => {
@@ -76,6 +93,7 @@ const authSlice = createSlice({
   },
   extraReducers: (builder) => {
     builder
+      // ✅ Signup
       .addCase(signup.pending, (state) => {
         state.isLoading = true;
       })
@@ -83,12 +101,16 @@ const authSlice = createSlice({
         state.isLoading = false;
         state.isSuccess = true;
         state.user = action.payload;
+        toast.success("Account created successfully!");
       })
       .addCase(signup.rejected, (state, action) => {
         state.isLoading = false;
         state.isError = true;
         state.message = action.payload;
+        toast.error(action.payload);
       })
+
+      // ✅ Login
       .addCase(login.pending, (state) => {
         state.isLoading = true;
       })
@@ -96,39 +118,52 @@ const authSlice = createSlice({
         state.isLoading = false;
         state.isSuccess = true;
         state.user = action.payload;
+        toast.success("Login successful!");
       })
       .addCase(login.rejected, (state, action) => {
         state.isLoading = false;
         state.isError = true;
         state.message = action.payload;
         state.user = null;
+        toast.error(action.payload);
       })
+
+      // Forgot password
       .addCase(forgotPassword.pending, (state) => {
         state.isLoading = true;
       })
       .addCase(forgotPassword.fulfilled, (state) => {
         state.isLoading = false;
         state.isSuccess = true;
+        toast.success("Password reset link sent to your email.");
       })
       .addCase(forgotPassword.rejected, (state, action) => {
         state.isLoading = false;
         state.isError = true;
         state.message = action.payload;
+        toast.error(action.payload);
       })
+
+      // Reset password
       .addCase(resetPassword.pending, (state) => {
         state.isLoading = true;
       })
       .addCase(resetPassword.fulfilled, (state) => {
         state.isLoading = false;
         state.isSuccess = true;
+        toast.success("Password reset successful.");
       })
       .addCase(resetPassword.rejected, (state, action) => {
         state.isLoading = false;
         state.isError = true;
         state.message = action.payload;
+        toast.error(action.payload);
       })
+
+      // Logout
       .addCase(logout.fulfilled, (state) => {
         state.user = null;
+        toast.success("Logged out successfully.");
       });
   },
 });

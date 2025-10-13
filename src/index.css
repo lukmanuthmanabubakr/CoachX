@@ -118,4 +118,7 @@ body {
   --verify-email-btn-bg: #ff8a2b;
   --verify-email-btn-text: #ffffff;
   --verify-email-btn-focus: #ff7a1f;
+
+  --loader-color: #ff781f; /* same bright orange as your button */
+  --loader-bg: rgba(0, 0, 0, 0.1);
 }

@@ -1,27 +1,69 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import { FcGoogle } from "react-icons/fc";
-import { FaEye, FaEyeSlash } from "react-icons/fa"; // 👁️ icons
+import { FaEye, FaEyeSlash } from "react-icons/fa";
 import "./SignIn.css";
 import logo from "../../assets/Onboard.svg";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { login, reset } from "../../redux/features/auth/authSlice";
+import { toast } from "react-hot-toast";
+import Loader from "../../components/Loader/Loader";
 
 const SignIn = () => {
   const [form, setForm] = useState({ email: "", password: "" });
-  const [showPassword, setShowPassword] = useState(false); // 👁️ control state
+  const [showPassword, setShowPassword] = useState(false);
+  const [errorMessage, setErrorMessage] = useState("");
 
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+
+  const { user, isLoading, isError, isSuccess, message } = useSelector(
+    (state) => state.auth
+  );
+
+  // Handle input change
   const handleChange = (e) => {
     setForm({ ...form, [e.target.name]: e.target.value });
   };
 
   const allFilled = form.email && form.password;
 
+  // Handle submit
   const handleSubmit = (e) => {
     e.preventDefault();
     if (allFilled) {
-      console.log("Logging in:", form);
+      dispatch(login(form));
     }
   };
+
+  // Handle login response
+  // useEffect(() => {
+  //   if (isSuccess && user) {
+  //     console.log("✅ Login successful:", user);
+  //     navigate("/dashboard");
+  //   }
+
+  //   if (isError) {
+  //     console.log("❌ Login failed:", message);
+  //     setErrorMessage(message);
+  //   }
+
+  //   dispatch(reset());
+  // }, [user, isSuccess, isError, message, navigate, dispatch]);
+
+  useEffect(() => {
+    if (isSuccess && user) {
+      navigate("/dashboard");
+    }
+
+    if (isError) {
+      toast.error(message || "Login failed"); // ❌ show error toast
+      setErrorMessage(message);
+    }
+
+    dispatch(reset());
+  }, [user, isSuccess, isError, message, navigate, dispatch]);
 
   return (
     <motion.div
@@ -32,9 +74,7 @@ const SignIn = () => {
       transition={{ duration: 0.6, ease: "easeOut" }}
     >
       {/* LEFT — IMAGE SECTION */}
-      <div
-        className="signin-left"
-      >
+      <div className="signin-left">
         <div className="signin-overlay"></div>
         <motion.div
           className="signin-left-content"
@@ -88,6 +128,16 @@ const SignIn = () => {
               </span>
             </div>
 
+            {/* Error Message */}
+            {errorMessage && (
+              <p
+                className="error-text"
+                style={{ color: "red", marginTop: "8px" }}
+              >
+                {errorMessage}
+              </p>
+            )}
+
             {/* Forgot Password Link */}
             <div className="forgot-password">
               <Link to="/forgot-password" className="forgot-password-link">
@@ -98,9 +148,9 @@ const SignIn = () => {
             <button
               type="submit"
               className={`signin-btn ${allFilled ? "active" : ""}`}
-              disabled={!allFilled}
+              disabled={!allFilled || isLoading}
             >
-              Sign In
+              {isLoading ? <Loader /> : "Sign In"}
             </button>
           </form>
 

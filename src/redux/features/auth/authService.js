@@ -5,7 +5,9 @@ const API_URL = `${BACKEND_URL}/api/v1/users/`; // adjust if needed
 
 // Signup
 const signup = async (userData) => {
+  console.log("🟡 Sending signup request:", userData);
   const response = await axios.post(`${API_URL}signup`, userData);
+  console.log("✅ Signup response:", response.data);
   return response.data;
 };
 
@@ -26,7 +28,10 @@ const forgotPassword = async (emailData) => {
 
 // Reset Password
 const resetPassword = async (token, passwordData) => {
-  const response = await axios.patch(`${API_URL}resetpassword/${token}`, passwordData);
+  const response = await axios.patch(
+    `${API_URL}resetpassword/${token}`,
+    passwordData
+  );
   return response.data;
 };
 

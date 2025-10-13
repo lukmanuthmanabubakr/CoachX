@@ -8,6 +8,7 @@ import logo from "../../assets/Onboard.svg";
 import { Link, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { signup, reset } from "../../redux/features/auth/authSlice";
+import Loader from "../Loader/Loader";
 
 const Register = ({ role, setStep }) => {
   const [form, setForm] = useState({
@@ -16,7 +17,6 @@ const Register = ({ role, setStep }) => {
     password: "",
     confirmPassword: "",
   });
-
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirm, setShowConfirm] = useState(false);
   const [strength, setStrength] = useState("");
@@ -25,28 +25,23 @@ const Register = ({ role, setStep }) => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
-  // 👇 these values come from Redux state
-  const { user, isLoading, isError, isSuccess, message } = useSelector(
+  const { user, isLoading, isError, isSuccess } = useSelector(
     (state) => state.auth
   );
 
-  // 👇 check result after action
   useEffect(() => {
     if (isSuccess && user) {
-      console.log("✅ Signup successful:", user);
-      navigate("/dashboard"); // or wherever you want after signup
-    }
-    if (isError) {
-      console.log("❌ Signup failed:", message);
-      setError(message);
+      const timer = setTimeout(() => {
+        navigate("/check-mail-verification");
+      }, 1000); // wait 2 seconds after toast
+      return () => clearTimeout(timer);
     }
     dispatch(reset());
-  }, [user, isSuccess, isError, message, navigate, dispatch]);
+  }, [user, isSuccess, isError, navigate, dispatch]);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
     setForm({ ...form, [name]: value });
-
     if (name === "password") checkStrength(value);
   };
 
@@ -66,13 +61,10 @@ const Register = ({ role, setStep }) => {
     else setStrength("");
   };
 
-  const allFilled =
-    form.name && form.email && form.password && form.confirmPassword;
+  const allFilled = form.name && form.email && form.password && form.confirmPassword;
   const isStrongPassword = strength === "Strong";
   const passwordsMatch =
-    form.password &&
-    form.confirmPassword &&
-    form.password === form.confirmPassword;
+    form.password && form.confirmPassword && form.password === form.confirmPassword;
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -88,9 +80,8 @@ const Register = ({ role, setStep }) => {
         email: form.email,
         password: form.password,
         passwordConfirm: form.confirmPassword,
+        role,
       };
-
-      console.log("🟡 Sending signup request:", userData);
       dispatch(signup(userData));
     }
   };
@@ -103,7 +94,6 @@ const Register = ({ role, setStep }) => {
       exit={{ opacity: 0, y: -40 }}
       transition={{ duration: 0.6, ease: "easeOut" }}
     >
-      {/* Left Section */}
       <div className="register-left">
         <motion.div
           className="register-left-content"
@@ -121,7 +111,6 @@ const Register = ({ role, setStep }) => {
         </motion.div>
       </div>
 
-      {/* Right Section */}
       <motion.div
         className="register-right"
         initial={{ x: 40, opacity: 0 }}
@@ -157,7 +146,6 @@ const Register = ({ role, setStep }) => {
               onChange={handleChange}
             />
 
-            {/* Password */}
             <label>Password</label>
             <div className="password-wrapper">
               <input
@@ -167,17 +155,11 @@ const Register = ({ role, setStep }) => {
                 value={form.password}
                 onChange={handleChange}
               />
-              <button
-                type="button"
-                className="toggle-password"
-                onClick={togglePassword}
-                aria-label="Toggle password visibility"
-              >
+              <button type="button" className="toggle-password" onClick={togglePassword}>
                 {showPassword ? <FaEyeSlash /> : <FaEye />}
               </button>
             </div>
 
-            {/* Password Strength */}
             <AnimatePresence mode="wait">
               {form.password && (
                 <motion.div
@@ -193,8 +175,7 @@ const Register = ({ role, setStep }) => {
               )}
             </AnimatePresence>
 
-            {/* Confirm Password */}
-            <label className="cPass">Confirm Password</label>
+            <label>Confirm Password</label>
             <div className="password-wrapper">
               <input
                 type={showConfirm ? "text" : "password"}
@@ -203,30 +184,19 @@ const Register = ({ role, setStep }) => {
                 value={form.confirmPassword}
                 onChange={handleChange}
               />
-              <button
-                type="button"
-                className="toggle-password"
-                onClick={toggleConfirm}
-                aria-label="Toggle confirm password visibility"
-              >
+              <button type="button" className="toggle-password" onClick={toggleConfirm}>
                 {showConfirm ? <FaEyeSlash /> : <FaEye />}
               </button>
             </div>
 
-            {/* Error if passwords don't match */}
             {error && <p className="error-text">{error}</p>}
 
-            {/* Submit Button */}
             <button
               type="submit"
-              className={`register-btn ${
-                allFilled && isStrongPassword && passwordsMatch ? "active" : ""
-              }`}
-              disabled={
-                !allFilled || !isStrongPassword || !passwordsMatch || isLoading
-              }
+              className={`register-btn ${allFilled && isStrongPassword && passwordsMatch ? "active" : ""}`}
+              disabled={!allFilled || !isStrongPassword || !passwordsMatch || isLoading}
             >
-              {isLoading ? "Signing Up..." : "Sign Up"}
+              {isLoading ? <Loader /> : "Sign Up"}
             </button>
           </form>
 
