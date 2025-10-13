@@ -1,0 +1,136 @@
+/* 🌟 SIGNUP COMPLETED PAGE */
+.signup-completed {
+  background: var(--signupCom-bg);
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+  overflow: hidden;
+  text-align: center;
+  padding: 1.5rem;
+  animation: fadeIn 0.7s ease-in-out;
+}
+
+/* Content */
+.signup-completed .signup-card {
+  z-index: 5;
+  max-width: 400px;
+}
+
+.signup-completed .signup-card h2 {
+  font-size: 2rem;
+  font-weight: 700;
+  color: var(--signupCom-h2);
+  margin-bottom: 0.8rem;
+}
+
+.signup-completed .signup-card p {
+  font-size: 1rem;
+  color: var(--signupCom-test);
+  margin-bottom: 2rem;
+}
+
+/* Button */
+.signup-completed .begin-btn {
+  background: var(--fitness-btn-bg);
+  color: var(--fitness-btn-text);
+  border: none;
+  border-radius: 1rem;
+  padding: 0.9rem 2.5rem;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  margin-top: 1rem;
+}
+
+.signup-completed .begin-btn:hover {
+  background: var(--fitness-btn-focus);
+  transform: scale(1.05);
+}
+
+/* ✨ Shine Effect */
+.signup-completed .shine-effect {
+  position: absolute;
+  top: -50%;
+  left: -50%;
+  width: 200%;
+  height: 200%;
+  background: radial-gradient(
+    circle at center,
+    rgba(255, 255, 255, 0.6) 0%,
+    transparent 70%
+  );
+  animation: shinePop 1.5s ease-out forwards;
+  z-index: 2;
+}
+
+/* ✨ Shine Animation */
+@keyframes shinePop {
+  0% {
+    opacity: 0;
+    transform: scale(0.3);
+  }
+  50% {
+    opacity: 1;
+    transform: scale(1);
+  }
+  100% {
+    opacity: 0;
+    transform: scale(1.8);
+  }
+}
+
+/* 🌈 Page fade-in animation */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(25px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* ✅ Mobile Responsive Fix */
+@media (max-width: 480px) {
+  .signup-completed .signup-card h2 {
+    font-size: 1.6rem;
+  }
+
+  .signup-completed .signup-card p {
+    font-size: 0.95rem;
+    margin-bottom: 1.5rem;
+  }
+
+  .signup-completed .begin-btn {
+    position: fixed;
+    bottom: 2rem;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 90%;
+    padding: 1rem 0;
+    font-size: 1rem;
+    border-radius: 12px;
+    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.1);
+  }
+}
+
+/* 📱 Extra small screens (≤320px) */
+@media (max-width: 320px) {
+  .signup-completed .signup-card h2 {
+    font-size: 1.4rem;
+  }
+
+  .signup-completed .signup-card p {
+    font-size: 0.85rem;
+  }
+
+  .signup-completed .begin-btn {
+    padding: 0.9rem 0;
+    width: 92%;
+  }
+}

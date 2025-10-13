@@ -93,4 +93,21 @@ body {
   --gender-btn-bg: #ff8a2b;
   --gender-btn-text: #ffffff;
   --gender-btn-focus: #ff7a1f;
+
+  /* Fitness Page Theme */
+  --fitness-bg: #fff4ed;
+  --fitness-card-bg: #ffffff;
+  --fitness-text: #5b514a;
+  --fitness-border: #ffd3a6;
+  --fitness-btn-bg: #ff8b35;
+  --fitness-btn-text: #ffffff;
+  --fitness-btn-focus: #ff781f;
+
+  /* SignUp Complete */
+  --signupCom-bg: #fff4ed;
+  --signupCom-h2: #5b514a;
+  --signupCom-test: #6b625c;
+  --fitness-btn-bg: #ff8b35;
+  --fitness-btn-text: #ffffff;
+  --fitness-btn-focus: #ff781f;
 }

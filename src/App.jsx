@@ -12,6 +12,8 @@ import ResetPass from "./pages/ResetPass/ResetPass";
 import UploadWelcomeImage from "./pages/UploadWelcomeImage/UploadWelcomeImage";
 import Gender from "./components/Gender/Gender";
 import FitnessGoal from "./pages/FitnessGoal/FitnessGoal";
+import SignupCompleted from "./pages/SignupCompleted/SignupCompleted";
+import VerifyEmail from "./pages/VerifyEmail/VerifyEmail";
 
 const App = () => {
   const [showWelcome, setShowWelcome] = useState(true);
@@ -168,6 +170,32 @@ const App = () => {
               transition={{ duration: 0.5 }}
             >
               <FitnessGoal />
+            </motion.div>
+          }
+        />
+        <Route
+          path="/signup-completed"
+          element={
+            <motion.div
+              initial={{ opacity: 0, y: 50 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -50 }}
+              transition={{ duration: 0.5 }}
+            >
+              <SignupCompleted />
+            </motion.div>
+          }
+        />
+        <Route
+          path="/verify-email"
+          element={
+            <motion.div
+              initial={{ opacity: 0, y: 50 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -50 }}
+              transition={{ duration: 0.5 }}
+            >
+              <VerifyEmail />
             </motion.div>
           }
         />
