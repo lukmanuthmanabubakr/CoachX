@@ -9,7 +9,7 @@ const Gender = () => {
 
   const handleNext = () => {
     if (!selectedGender) return;
-    navigate("/next-step"); // next route
+    navigate("/fitness-goal"); // next route
   };
 
   const handleBack = () => {
