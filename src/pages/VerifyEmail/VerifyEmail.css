@@ -1,0 +1,98 @@
+.verify-email-container {
+  min-height: 100vh;
+  background-color: var(--verify-email-bg);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1rem;
+}
+
+.verify-email-card {
+  background-color: var(--verify-email-card-bg);
+  border: 1px solid var(--verify-email-border);
+  border-radius: 16px;
+  padding: 2.5rem 2rem;
+  max-width: 400px;
+  width: 100%;
+  text-align: center;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+}
+
+.verify-email-title {
+  font-size: 1.8rem;
+  color: var(--verify-email-text);
+  font-weight: 700;
+  margin-bottom: 1rem;
+}
+
+.verify-email-text {
+  font-size: 1rem;
+  color: var(--verify-email-text);
+  margin-bottom: 2rem;
+}
+
+.verify-email-btn {
+  background-color: var(--verify-email-btn-bg);
+  color: var(--verify-email-btn-text);
+  padding: 0.9rem 1.5rem;
+  border: none;
+  border-radius: 8px;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  width: 100%;
+  font-weight: 600;
+}
+
+.verify-email-btn:hover,
+.verify-email-btn:focus {
+  background-color: var(--verify-email-btn-focus);
+  outline: none;
+}
+
+@media (max-width: 480px) {
+  .verify-email-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    padding: 2rem 1rem;
+  }
+
+  .verify-email-card {
+    background: none;
+    border: none;
+    box-shadow: none;
+    padding: 0;
+    max-width: none;
+    width: 100%;
+    text-align: center;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center; /* centers text vertically */
+  }
+
+  .verify-email-title {
+    font-size: 1.5rem;
+    margin-bottom: 1rem;
+  }
+
+  .verify-email-text {
+    font-size: 0.9rem;
+    margin-bottom: 0;
+  }
+
+  .verify-email-btn {
+    font-size: 1rem;
+    padding: 0.9rem 1rem;
+    margin-top: 2rem;
+    position: fixed;
+    bottom: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 85%; /* ✅ nice wide width but not full */
+    max-width: 400px; /* keeps it clean on bigger phones */
+    border-radius: 8px;
+    font-weight: 600;
+  }
+}

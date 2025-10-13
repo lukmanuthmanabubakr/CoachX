@@ -110,4 +110,12 @@ body {
   --fitness-btn-bg: #ff8b35;
   --fitness-btn-text: #ffffff;
   --fitness-btn-focus: #ff781f;
+
+  --verify-email-bg: #fff2e9; /* soft background like check verify */
+  --verify-email-card-bg: #ffffff;
+  --verify-email-border: #ffd5b0;
+  --verify-email-text: #5f5650;
+  --verify-email-btn-bg: #ff8a2b;
+  --verify-email-btn-text: #ffffff;
+  --verify-email-btn-focus: #ff7a1f;
 }
