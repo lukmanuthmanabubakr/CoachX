@@ -1,11 +1,13 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import "./Register.css";
 import { FaArrowLeft } from "react-icons/fa";
 import { FcGoogle } from "react-icons/fc";
 import { FaEye, FaEyeSlash } from "react-icons/fa";
 import logo from "../../assets/Onboard.svg";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { signup, reset } from "../../redux/features/auth/authSlice";
 
 const Register = ({ role, setStep }) => {
   const [form, setForm] = useState({
@@ -19,6 +21,27 @@ const Register = ({ role, setStep }) => {
   const [showConfirm, setShowConfirm] = useState(false);
   const [strength, setStrength] = useState("");
   const [error, setError] = useState("");
+
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+
+  // 👇 these values come from Redux state
+  const { user, isLoading, isError, isSuccess, message } = useSelector(
+    (state) => state.auth
+  );
+
+  // 👇 check result after action
+  useEffect(() => {
+    if (isSuccess && user) {
+      console.log("✅ Signup successful:", user);
+      navigate("/dashboard"); // or wherever you want after signup
+    }
+    if (isError) {
+      console.log("❌ Signup failed:", message);
+      setError(message);
+    }
+    dispatch(reset());
+  }, [user, isSuccess, isError, message, navigate, dispatch]);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -47,7 +70,9 @@ const Register = ({ role, setStep }) => {
     form.name && form.email && form.password && form.confirmPassword;
   const isStrongPassword = strength === "Strong";
   const passwordsMatch =
-    form.password && form.confirmPassword && form.password === form.confirmPassword;
+    form.password &&
+    form.confirmPassword &&
+    form.password === form.confirmPassword;
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -58,7 +83,15 @@ const Register = ({ role, setStep }) => {
     setError("");
 
     if (allFilled && isStrongPassword && passwordsMatch) {
-      console.log("Registering user:", { ...form, role });
+      const userData = {
+        fullName: form.name,
+        email: form.email,
+        password: form.password,
+        passwordConfirm: form.confirmPassword,
+      };
+
+      console.log("🟡 Sending signup request:", userData);
+      dispatch(signup(userData));
     }
   };
 
@@ -189,9 +222,11 @@ const Register = ({ role, setStep }) => {
               className={`register-btn ${
                 allFilled && isStrongPassword && passwordsMatch ? "active" : ""
               }`}
-              disabled={!allFilled || !isStrongPassword || !passwordsMatch}
+              disabled={
+                !allFilled || !isStrongPassword || !passwordsMatch || isLoading
+              }
             >
-              Sign Up
+              {isLoading ? "Signing Up..." : "Sign Up"}
             </button>
           </form>
 
