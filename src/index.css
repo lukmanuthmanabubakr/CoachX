@@ -36,7 +36,8 @@ body {
   --fade-dark: rgba(0, 0, 0, 0.7);
 
   /* signup page */
-  --signup-bg: #fff7f0;
+  --signup-bg: #e6ded8;
+  --fomn-bg: #fff7f0;
   --signup-text: #190c03;
   --signup-button-bg: #ff781f;
   --signup-button-text: #fff;

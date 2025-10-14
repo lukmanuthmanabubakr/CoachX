@@ -82,7 +82,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  background-color: var(--signup-bg);
+  background-color: var(--fomn-bg);
   padding: 3rem;
   position: relative;
   z-index: 2;
@@ -192,37 +192,14 @@
 /* ==== MEDIUM SCREENS (tablets & small laptops) ==== */
 @media (max-width: 1200px) {
   .signup-wrapper {
-    flex-direction: row;
-  }
-
-  .signup-image-side {
-    flex: 0.9;
-  }
-
-  .signup-form-side {
-    flex: 1.1;
-    padding: 2.5rem;
-  }
-
-  .signup-form {
-    max-width: 380px;
-  }
-
-  .signup-title {
-    font-size: 1.7rem;
-  }
-}
-
-/* ==== SMALL SCREENS (mobile & tablets) ==== */
-@media (max-width: 900px) {
-  .signup-wrapper {
     flex-direction: column;
     height: auto;
   }
 
+  /* Make the image taller */
   .signup-image-side {
     position: relative;
-    height: 40vh;
+    height: 60vh; /* increased from 40vh to 60vh */
   }
 
   .signup-img {
@@ -240,9 +217,9 @@
     left: 0;
     width: 100%;
     height: 100%;
+    background: linear-gradient(rgba(255, 120, 31, 0.35), rgba(25, 12, 3, 0.5));
   }
 
-  /* Logo overlay on top of the image */
   .signup-image-side .logo {
     position: absolute;
     bottom: 15px;
@@ -253,9 +230,8 @@
     filter: brightness(1.1);
   }
 
-  /* Curved top form section */
   .signup-form-side {
-    background-color: var(--signup-bg);
+    background-color: var(--fomn-bg);
     border-top-left-radius: 30px;
     border-top-right-radius: 30px;
     margin-top: -30px;
@@ -283,6 +259,9 @@
 @media (max-width: 500px) {
   .signup-title {
     font-size: 1.3rem;
+  }
+  .signup-image-side {
+    height: 100vh;
   }
 
   .logo {
