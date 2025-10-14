@@ -1,4 +1,5 @@
 import React from "react";
+import bgImage from "../../assets/onboardImg.jpg";
 import logo from "../../assets/CoachX.svg";
 import subLogo from "../../assets/mainLogo.svg";
 import { NavLink, useNavigate } from "react-router-dom";
@@ -12,7 +13,10 @@ const Onboard = () => {
   };
 
   return (
-    <div className="onboardWrapper">
+    <div
+      className="onboardWrapper"
+      style={{ backgroundImage: `url(${bgImage})` }}
+    >
       <div className="overlay"></div>
 
       <div className="onboardingContent">
