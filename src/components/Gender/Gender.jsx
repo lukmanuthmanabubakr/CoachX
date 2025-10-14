@@ -1,15 +1,25 @@
 import React, { useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { FaMars, FaVenus } from "react-icons/fa";
+import { updateMe } from "../../redux/features/auth/authSlice";
 import "./Gender.css";
 
 const Gender = () => {
   const [selectedGender, setSelectedGender] = useState("");
+  const dispatch = useDispatch();
   const navigate = useNavigate();
 
-  const handleNext = () => {
+  const { isLoading } = useSelector((state) => state.auth);
+
+  const handleNext = async () => {
     if (!selectedGender) return;
-    navigate("/fitness-goal"); // next route
+
+    // Dispatch updateMe action
+    await dispatch(updateMe({ gender: selectedGender }));
+
+    // After successful update, navigate to next page
+    navigate("/fitness-goal");
   };
 
   const handleBack = () => {
@@ -19,20 +29,15 @@ const Gender = () => {
   return (
     <div className="gender">
       <div className="gender-container">
-        <div
-          className="gender-card"
-          role="region"
-          aria-labelledby="gender-title"
-        >
+        <div className="gender-card">
           <div className="step-indicator">Step 2 of 4</div>
 
-          <h1 id="gender-title">What’s your gender?</h1>
+          <h1>What’s your gender?</h1>
           <p className="gender-sub">
             Select the option that best describes you.
           </p>
 
           <form className="gender-options" onSubmit={(e) => e.preventDefault()}>
-            {/* Male */}
             <label
               className={`gender-option ${
                 selectedGender === "male" ? "selected" : ""
@@ -40,7 +45,7 @@ const Gender = () => {
               htmlFor="gender-male"
             >
               <div className="gender-label-wrapper">
-                <FaMars className="gender-icon" aria-hidden="true" />
+                <FaMars className="gender-icon" />
                 <span className="gender-label">Male</span>
               </div>
               <input
@@ -51,11 +56,9 @@ const Gender = () => {
                 value="male"
                 checked={selectedGender === "male"}
                 onChange={() => setSelectedGender("male")}
-                aria-label="Male"
               />
             </label>
 
-            {/* Female */}
             <label
               className={`gender-option ${
                 selectedGender === "female" ? "selected" : ""
@@ -63,7 +66,7 @@ const Gender = () => {
               htmlFor="gender-female"
             >
               <div className="gender-label-wrapper">
-                <FaVenus className="gender-icon" aria-hidden="true" />
+                <FaVenus className="gender-icon" />
                 <span className="gender-label">Female</span>
               </div>
               <input
@@ -74,30 +77,30 @@ const Gender = () => {
                 value="female"
                 checked={selectedGender === "female"}
                 onChange={() => setSelectedGender("female")}
-                aria-label="Female"
               />
             </label>
           </form>
 
           <div className="gender-actions">
-            <button
-              type="button"
-              className="back-text"
-              onClick={handleBack}
-              aria-label="Back to previous step"
-            >
+            <button type="button" className="back-text" onClick={handleBack}>
               Back
             </button>
 
             <button
               type="button"
-              className={`next-btn ${!selectedGender ? "disabled" : ""}`}
+              className={`next-btn ${isLoading ? "loading" : ""} ${
+                !selectedGender ? "disabled" : ""
+              }`}
               onClick={handleNext}
-              disabled={!selectedGender}
-              aria-disabled={!selectedGender}
-              aria-label="Next"
+              disabled={!selectedGender || isLoading}
             >
-              Next
+              {isLoading ? (
+                <div className="btn-loading">
+                  <span className="btn-loader"></span>
+                </div>
+              ) : (
+                "Next"
+              )}
             </button>
           </div>
         </div>

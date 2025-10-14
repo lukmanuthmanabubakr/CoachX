@@ -169,6 +169,32 @@
   transition: all 0.3s ease;
 }
 
+/* Add this to FitnessGoal.css or your global stylesheet */
+.fitness-goal .btn-loading {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.fitness-goal .btn-loader {
+  width: 18px;
+  height: 18px;
+  border: 2px solid transparent;
+  border-top: 2px solid #fff; /* same color as button text */
+  border-radius: 50%;
+  animation: spin 0.7s linear infinite;
+}
+
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+
 .fitness-goal .next-btn:hover {
   background: var(--fitness-btn-focus);
   transform: scale(1.05);

@@ -155,7 +155,11 @@
 
 .gender .gender-radio:checked {
   border-color: var(--gender-btn-bg);
-  background: radial-gradient(circle at center, var(--gender-btn-bg) 45%, transparent 46%);
+  background: radial-gradient(
+    circle at center,
+    var(--gender-btn-bg) 45%,
+    transparent 46%
+  );
   transform: scale(1.15);
 }
 
@@ -185,6 +189,24 @@
 }
 
 /* ✅ Next Button */
+.gender .btn-loader {
+  width: 16px;
+  height: 16px;
+  border: 2px solid rgba(255, 255, 255, 0.3); /* subtle border */
+  border-top: 2px solid #fff; /* white spinner */
+  border-radius: 50%;
+  animation: spin 0.6s linear infinite;
+  display: inline-block;
+  vertical-align: middle;
+}
+
+.gender .btn-loading {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+}
+
 .gender .next-btn {
   background: var(--gender-btn-bg);
   color: var(--gender-btn-text);
@@ -195,6 +217,8 @@
   font-size: 1rem;
   cursor: pointer;
   transition: all 0.3s ease;
+  width: 120px; /* adjust to match your design */
+  text-align: center;
 }
 
 .gender .next-btn:hover {
@@ -271,7 +295,7 @@
   }
 
   .gender .next-btn {
-    padding: 0.9rem 4rem;
+    padding: 0.8rem 1rem;
     font-size: 1rem;
   }
 

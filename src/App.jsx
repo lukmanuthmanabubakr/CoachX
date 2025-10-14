@@ -17,6 +17,7 @@ import VerifyEmail from "./pages/VerifyEmail/VerifyEmail";
 import Preferences from "./pages/Preferences/Preferences";
 import Category from "./pages/Category/Category";
 import SubscriptionPrice from "./pages/SubscriptionPrice/subscriptionPrice";
+import GetUser from "./pages/GetUser/GetUser";
 
 const App = () => {
   const [showWelcome, setShowWelcome] = useState(true);
@@ -238,6 +239,19 @@ const App = () => {
               transition={{ duration: 0.5 }}
             >
               <SubscriptionPrice />
+            </motion.div>
+          }
+        />
+        <Route
+          path="/get-user"
+          element={
+            <motion.div
+              initial={{ opacity: 0, y: 50 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -50 }}
+              transition={{ duration: 0.5 }}
+            >
+              <GetUser />
             </motion.div>
           }
         />

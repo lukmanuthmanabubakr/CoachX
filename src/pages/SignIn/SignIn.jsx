@@ -7,7 +7,6 @@ import logo from "../../assets/Onboard.svg";
 import { Link, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { login, reset } from "../../redux/features/auth/authSlice";
-import { toast } from "react-hot-toast";
 import Loader from "../../components/Loader/Loader";
 
 const SignIn = () => {
@@ -58,7 +57,6 @@ const SignIn = () => {
     }
 
     if (isError) {
-      toast.error(message || "Login failed"); // ❌ show error toast
       setErrorMessage(message);
     }
 

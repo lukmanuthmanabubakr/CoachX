@@ -1,10 +1,15 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { GiRunningShoe, GiMuscleUp, GiWeightLiftingUp } from "react-icons/gi";
+import { useDispatch, useSelector } from "react-redux";
+import { updateMe } from "../../redux/features/auth/authSlice";
 import "./FitnessGoal.css";
 
 const FitnessGoal = () => {
   const navigate = useNavigate();
+  const dispatch = useDispatch();
+  const { isLoading } = useSelector((state) => state.auth);
+
   const [selectedGoals, setSelectedGoals] = useState([]);
 
   const toggleGoal = (goal) => {
@@ -15,9 +20,15 @@ const FitnessGoal = () => {
     );
   };
 
-  const handleNext = () => {
+  const handleNext = async () => {
     if (selectedGoals.length === 0) return;
-    navigate("/choose-preferences"); // next route
+
+    try {
+      await dispatch(updateMe({ fitnessGoal: selectedGoals })).unwrap();
+      navigate("/choose-preferences");
+    } catch (error) {
+      console.error("Failed to update fitness goal:", error);
+    }
   };
 
   const handleBack = () => {
@@ -95,13 +106,19 @@ const FitnessGoal = () => {
 
             <button
               type="button"
-              className={`next-btn ${
+              className={`next-btn ${isLoading ? "loading" : ""} ${
                 selectedGoals.length === 0 ? "disabled" : ""
               }`}
               onClick={handleNext}
-              disabled={selectedGoals.length === 0}
+              disabled={selectedGoals.length === 0 || isLoading}
             >
-              Next
+              {isLoading ? (
+                <div className="btn-loading">
+                  <span className="btn-loader"></span>
+                </div>
+              ) : (
+                "Next"
+              )}
             </button>
           </div>
         </div>
