@@ -44,6 +44,40 @@
   font-weight: 600;
 }
 
+.verify-email-btn {
+  position: relative;
+  display: flex; /* allows centering */
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+}
+
+/* when loading, reduce pointer and opacity slightly */
+.verify-email-btn.loading {
+  opacity: 0.8;
+  cursor: not-allowed;
+}
+
+/* ensure the Loader aligns properly within the button */
+.verify-email-btn .loader {
+  position: static; /* reset from global fixed style */
+  width: 18px;
+  height: 18px;
+  border-width: 3px;
+  border-top-color: #fff; /* match your text color */
+  animation: spin 0.7s linear infinite;
+}
+.verify-email-btn .loader-overlay {
+  position: static !important; /* overrides fixed */
+  width: auto !important;
+  height: auto !important;
+  background: none !important;
+  display: inline-flex !important;
+  justify-content: center;
+  align-items: center;
+  z-index: auto !important;
+}
+
 .verify-email-btn:hover,
 .verify-email-btn:focus {
   background-color: var(--verify-email-btn-focus);

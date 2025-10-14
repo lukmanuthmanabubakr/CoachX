@@ -35,6 +35,34 @@ const resetPassword = async (token, passwordData) => {
   return response.data;
 };
 
+// Verify Email
+const verifyEmail = async (token) => {
+  const response = await axios.patch(`${API_URL}verifyemail/${token}`);
+  return response.data;
+};
+
+// Update Me
+const updateMe = async (userData, token) => {
+  const config = {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  };
+  const response = await axios.patch(`${API_URL}updateme`, userData, config);
+  return response.data;
+};
+
+// Get Current User
+const getMe = async (token) => {
+  const config = {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  };
+  const response = await axios.get(`${API_URL}me`, config);
+  return response.data;
+};
+
 // Logout
 const logout = () => {
   localStorage.removeItem("user");
@@ -46,6 +74,9 @@ const authService = {
   forgotPassword,
   resetPassword,
   logout,
+   verifyEmail,
+  updateMe,
+  getMe,
 };
 
 export default authService;

@@ -1,13 +1,26 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import "./ResetPass.css";
 import logo from "../../assets/CoachX.svg";
 import { AiOutlineEye, AiOutlineEyeInvisible } from "react-icons/ai";
+import { useParams, useNavigate } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { resetPassword, reset } from "../../redux/features/auth/authSlice";
+import toast from "react-hot-toast";
+import Loader from "../../components/Loader/Loader";
 
 const ResetPass = () => {
   const [newPassword, setNewPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirm, setShowConfirm] = useState(false);
+
+  const { token } = useParams(); // ✅ grab token from URL
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
+
+  const { isLoading, isSuccess, isError, message } = useSelector(
+    (state) => state.auth
+  );
 
   // Password strength checker
   const getPasswordStrength = (password) => {
@@ -21,16 +34,38 @@ const ResetPass = () => {
   };
 
   const passwordStrength = getPasswordStrength(newPassword);
-
   const isActive =
     newPassword && confirmPassword && newPassword === confirmPassword;
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    if (isActive) {
-      alert("Password reset successful!");
+
+    if (!isActive) {
+      toast.error("Passwords must match and meet strength requirements.");
+      return;
     }
+
+    console.log("Reset password form submitted!");
+    console.log("Token:", token);
+    console.log("New password:", newPassword);
+
+    const passwordData = { password: newPassword };
+    dispatch(resetPassword({ token, passwordData }));
   };
+
+  useEffect(() => {
+    if (isSuccess) {
+      setNewPassword("");
+      setConfirmPassword("");
+      dispatch(reset());
+      navigate("/signin");
+    }
+
+    if (isError) {
+      console.error("Reset password error:", message);
+      dispatch(reset());
+    }
+  }, [isSuccess, isError, message, dispatch, navigate]);
 
   return (
     <div className="reset-container">
@@ -50,6 +85,7 @@ const ResetPass = () => {
               value={newPassword}
               onChange={(e) => setNewPassword(e.target.value)}
               placeholder="Enter new password"
+              required
             />
             <span
               className="reset-icon"
@@ -63,7 +99,6 @@ const ResetPass = () => {
             </span>
           </div>
 
-          {/* Password strength indicator */}
           {newPassword && (
             <p
               className={`password-strength show ${passwordStrength.toLowerCase()}`}
@@ -71,6 +106,7 @@ const ResetPass = () => {
               Strength: {passwordStrength}
             </p>
           )}
+
           <label htmlFor="confirm-password">Confirm Password</label>
           <div className="reset-input-wrapper">
             <input
@@ -79,6 +115,7 @@ const ResetPass = () => {
               value={confirmPassword}
               onChange={(e) => setConfirmPassword(e.target.value)}
               placeholder="Confirm new password"
+              required
             />
             <span
               className="reset-icon"
@@ -95,9 +132,9 @@ const ResetPass = () => {
           <button
             type="submit"
             className={`reset-btn ${isActive ? "active" : ""}`}
-            disabled={!isActive}
+            disabled={!isActive || isLoading}
           >
-            Reset Password
+            {isLoading ? <Loader /> : "Reset Password"}
           </button>
         </form>
       </div>
