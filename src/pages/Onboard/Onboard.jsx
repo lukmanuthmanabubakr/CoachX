@@ -1,7 +1,7 @@
 import React from "react";
 import bgImage from "../../assets/onboardImg.jpg";
-import logo from "../../assets/CoachX.svg";
-import subLogo from "../../assets/mainLogo.svg";
+import logo from "../../assets/onbodLogo.svg";
+import subLogo from "../../assets/onbodCoachX.svg";
 import { NavLink, useNavigate } from "react-router-dom";
 import "./Onboard.css";
 
@@ -20,8 +20,8 @@ const Onboard = () => {
       <div className="overlay"></div>
 
       <div className="onboardingContent">
-        <img src={subLogo} alt="Sub Logo" className="subLogo" />
-        <img src={logo} alt="Main Logo" className="mainLogo" />
+        <img src={logo} alt="Main Logo" className="subLogo" />
+        <img src={subLogo} alt="Sub Logo" className="mainLogo" />
 
         <p className="onboardText">
           Welcome to CoachX! Achieve your fitness goals with personalized
