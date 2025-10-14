@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import "./SignUp.css";
-import signUpImg from "../../assets/testingfive.jpeg";
+import signUpImg from "../../assets/signup.svg";
 import logo from "../../assets/Onboard.svg";
 import Register from "../../components/Register/Register";
 
