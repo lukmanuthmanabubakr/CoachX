@@ -19,7 +19,7 @@
   inset: 0;
   background: linear-gradient(
     rgba(185, 131, 69, 0.35) 0%,
-    /* top - lighter and vivid */ rgba(0, 0, 0, 0.5) 50%,
+    /* top - lighter and vivid */ rgba(11, 11, 11, 0.5) 50%,
     /* middle - dim */ rgba(0, 0, 0, 0.7) 100% /* bottom - darker */
   );
   z-index: 1;
