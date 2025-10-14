@@ -4,10 +4,26 @@ const BACKEND_URL = "https://coachx-backend.vercel.app";
 const API_URL = `${BACKEND_URL}/api/v1/users/`; // adjust if needed
 
 // Signup
+// const signup = async (userData) => {
+//   console.log("🟡 Sending signup request:", userData);
+//   const response = await axios.post(`${API_URL}signup`, userData);
+//   console.log("✅ Signup response:", response.data);
+//   return response.data;
+// };
+
+// Signup
 const signup = async (userData) => {
-  console.log("🟡 Sending signup request:", userData);
   const response = await axios.post(`${API_URL}signup`, userData);
-  console.log("✅ Signup response:", response.data);
+  if (response.data.token) {
+    // persist token + user immediately
+    localStorage.setItem(
+      "user",
+      JSON.stringify({
+        token: response.data.token,
+        ...response.data.data.user,
+      })
+    );
+  }
   return response.data;
 };
 
@@ -74,7 +90,7 @@ const authService = {
   forgotPassword,
   resetPassword,
   logout,
-   verifyEmail,
+  verifyEmail,
   updateMe,
   getMe,
 };

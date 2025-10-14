@@ -18,6 +18,7 @@ import Preferences from "./pages/Preferences/Preferences";
 import Category from "./pages/Category/Category";
 import SubscriptionPrice from "./pages/SubscriptionPrice/subscriptionPrice";
 import GetUser from "./pages/GetUser/GetUser";
+import ProtectedRoute from "./components/Protect/ProtectedRoute";
 
 const App = () => {
   const [showWelcome, setShowWelcome] = useState(true);
@@ -151,19 +152,21 @@ const App = () => {
             </motion.div>
           }
         />
-        <Route
-          path="/select-gender"
-          element={
-            <motion.div
-              initial={{ opacity: 0, y: 50 }}
-              animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: -50 }}
-              transition={{ duration: 0.5 }}
-            >
-              <Gender />
-            </motion.div>
-          }
-        />
+        <Route element={<ProtectedRoute />}>
+          <Route
+            path="/select-gender"
+            element={
+              <motion.div
+                initial={{ opacity: 0, y: 50 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: -50 }}
+                transition={{ duration: 0.5 }}
+              >
+                <Gender />
+              </motion.div>
+            }
+          />
+        </Route>
         <Route
           path="/fitness-goal"
           element={
@@ -216,45 +219,51 @@ const App = () => {
             </motion.div>
           }
         />
-        <Route
-          path="/creators-categories"
-          element={
-            <motion.div
-              initial={{ opacity: 0, y: 50 }}
-              animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: -50 }}
-              transition={{ duration: 0.5 }}
-            >
-              <Category />
-            </motion.div>
-          }
-        />
-        <Route
-          path="/subscription-price"
-          element={
-            <motion.div
-              initial={{ opacity: 0, y: 50 }}
-              animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: -50 }}
-              transition={{ duration: 0.5 }}
-            >
-              <SubscriptionPrice />
-            </motion.div>
-          }
-        />
-        <Route
-          path="/get-user"
-          element={
-            <motion.div
-              initial={{ opacity: 0, y: 50 }}
-              animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: -50 }}
-              transition={{ duration: 0.5 }}
-            >
-              <GetUser />
-            </motion.div>
-          }
-        />
+        <Route element={<ProtectedRoute />}>
+          <Route
+            path="/creators-categories"
+            element={
+              <motion.div
+                initial={{ opacity: 0, y: 50 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: -50 }}
+                transition={{ duration: 0.5 }}
+              >
+                <Category />
+              </motion.div>
+            }
+          />
+        </Route>
+        <Route element={<ProtectedRoute />}>
+          <Route
+            path="/subscription-price"
+            element={
+              <motion.div
+                initial={{ opacity: 0, y: 50 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: -50 }}
+                transition={{ duration: 0.5 }}
+              >
+                <SubscriptionPrice />
+              </motion.div>
+            }
+          />
+        </Route>
+        <Route element={<ProtectedRoute />}>
+          <Route
+            path="/get-user"
+            element={
+              <motion.div
+                initial={{ opacity: 0, y: 50 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: -50 }}
+                transition={{ duration: 0.5 }}
+              >
+                <GetUser />
+              </motion.div>
+            }
+          />
+        </Route>
       </Routes>
     </AnimatePresence>
   );

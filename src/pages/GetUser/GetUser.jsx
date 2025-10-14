@@ -1,9 +1,11 @@
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { getMe } from "../../redux/features/auth/authSlice";
+import { getMe, logout } from "../../redux/features/auth/authSlice";
+import { useNavigate } from "react-router-dom";
 
 const GetUser = () => {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
   const { user, isLoading, isError, isSuccess } = useSelector((state) => state.auth);
 
   useEffect(() => {
@@ -13,7 +15,6 @@ const GetUser = () => {
         console.log("📦 Full backend response:", resultAction);
         console.log("✅ Payload data:", resultAction.payload);
 
-        // ✅ Extract user from payload
         const userData = resultAction.payload?.data?.user;
         console.log("🧍 User Object:", userData);
       } catch (err) {
@@ -26,6 +27,17 @@ const GetUser = () => {
 
   // ✅ Get nested user safely
   const actualUser = user?.data?.user || user;
+
+  // ✅ Logout Handler
+  const handleLogout = async () => {
+    try {
+      await dispatch(logout());
+      localStorage.removeItem("user"); // clear saved user data
+      navigate("/signin"); // redirect to login page
+    } catch (error) {
+      console.error("Logout failed:", error);
+    }
+  };
 
   return (
     <div className="get-user">
@@ -48,6 +60,11 @@ const GetUser = () => {
                 : "Not available"}
             </p>
           </div>
+
+          {/* ✅ Logout Button */}
+          <button className="logout-btn" onClick={handleLogout}>
+            Logout
+          </button>
         </div>
       ) : (
         <p>No user data found.</p>

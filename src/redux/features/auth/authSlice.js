@@ -141,9 +141,25 @@ const authSlice = createSlice({
       .addCase(signup.fulfilled, (state, action) => {
         state.isLoading = false;
         state.isSuccess = true;
-        state.user = action.payload;
+
+        // store both token and user together
+        state.user = {
+          token: action.payload.token,
+          ...action.payload.data.user,
+        };
+
+        // persist in localStorage
+        localStorage.setItem(
+          "user",
+          JSON.stringify({
+            token: action.payload.token,
+            ...action.payload.data.user,
+          })
+        );
+
         toast.success("Account created successfully!");
       })
+
       .addCase(signup.rejected, (state, action) => {
         state.isLoading = false;
         state.isError = true;
