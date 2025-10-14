@@ -28,7 +28,7 @@ const VerifyEmail = () => {
     if (isSuccess) {
       console.log("Email verified successfully!");
       dispatch(reset());
-      navigate("/signin");
+      navigate("/upload-welcome-image");
     }
 
     if (isError) {

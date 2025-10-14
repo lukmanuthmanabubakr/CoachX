@@ -189,8 +189,6 @@ const Register = ({ role, setStep }) => {
               </button>
             </div>
 
-            {error && <p className="error-text">{error}</p>}
-
             <button
               type="submit"
               className={`register-btn ${allFilled && isStrongPassword && passwordsMatch ? "active" : ""}`}

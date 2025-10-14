@@ -53,7 +53,7 @@ const SignIn = () => {
 
   useEffect(() => {
     if (isSuccess && user) {
-      navigate("/dashboard");
+      navigate("/get-user");
     }
 
     if (isError) {
@@ -125,16 +125,6 @@ const SignIn = () => {
                 {showPassword ? <FaEyeSlash /> : <FaEye />}
               </span>
             </div>
-
-            {/* Error Message */}
-            {errorMessage && (
-              <p
-                className="error-text"
-                style={{ color: "red", marginTop: "8px" }}
-              >
-                {errorMessage}
-              </p>
-            )}
 
             {/* Forgot Password Link */}
             <div className="forgot-password">
