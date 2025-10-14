@@ -17,7 +17,7 @@ const FitnessGoal = () => {
 
   const handleNext = () => {
     if (selectedGoals.length === 0) return;
-    navigate("/activity-level"); // next route
+    navigate("/choose-preferences"); // next route
   };
 
   const handleBack = () => {
@@ -28,7 +28,7 @@ const FitnessGoal = () => {
     <div className="fitness-goal">
       <div className="fitness-container">
         <div className="fitness-card">
-          <div className="step-indicator">Step 3 of 6</div>
+          <div className="step-indicator">Step 3 of 4</div>
 
           <h1>What’s your fitness goal?</h1>
           <p className="fitness-sub">

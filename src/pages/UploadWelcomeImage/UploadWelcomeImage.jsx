@@ -7,7 +7,7 @@ const UploadWelcomeImage = () => {
   const [image, setImage] = useState(null);
   const navigate = useNavigate();
   const currentStep = 1;
-  const totalSteps = 6;
+  const totalSteps = 4;
 
   const handleImageChange = (e) => {
     if (e.target.files && e.target.files[0]) {

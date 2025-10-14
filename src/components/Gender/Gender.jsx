@@ -24,7 +24,7 @@ const Gender = () => {
           role="region"
           aria-labelledby="gender-title"
         >
-          <div className="step-indicator">Step 2 of 6</div>
+          <div className="step-indicator">Step 2 of 4</div>
 
           <h1 id="gender-title">What’s your gender?</h1>
           <p className="gender-sub">

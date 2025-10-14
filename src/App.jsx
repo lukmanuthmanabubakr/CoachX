@@ -14,6 +14,7 @@ import Gender from "./components/Gender/Gender";
 import FitnessGoal from "./pages/FitnessGoal/FitnessGoal";
 import SignupCompleted from "./pages/SignupCompleted/SignupCompleted";
 import VerifyEmail from "./pages/VerifyEmail/VerifyEmail";
+import Preferences from "./pages/Preferences/Preferences";
 
 const App = () => {
   const [showWelcome, setShowWelcome] = useState(true);
@@ -196,6 +197,19 @@ const App = () => {
               transition={{ duration: 0.5 }}
             >
               <VerifyEmail />
+            </motion.div>
+          }
+        />
+        <Route
+          path="/choose-preferences"
+          element={
+            <motion.div
+              initial={{ opacity: 0, y: 50 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -50 }}
+              transition={{ duration: 0.5 }}
+            >
+              <Preferences />
             </motion.div>
           }
         />
