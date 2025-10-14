@@ -16,7 +16,7 @@ import SignupCompleted from "./pages/SignupCompleted/SignupCompleted";
 import VerifyEmail from "./pages/VerifyEmail/VerifyEmail";
 import Preferences from "./pages/Preferences/Preferences";
 import Category from "./pages/Category/Category";
-import SubscriptionPrice from "./pages/SubscriptionPrice/subscriptionPrice";
+import SubscriptionPrice from "./pages/SubscriptionPrice/SubscriptionPrice";
 import GetUser from "./pages/GetUser/GetUser";
 import ProtectedRoute from "./components/Protect/ProtectedRoute";
 
