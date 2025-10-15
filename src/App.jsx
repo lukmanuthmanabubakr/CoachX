@@ -26,13 +26,44 @@ const App = () => {
   const navigate = useNavigate();
   const location = useLocation();
 
+  // useEffect(() => {
+  //   if (location.pathname !== "/") return; // exit if not home
+
+  //   const fadeTimer = setTimeout(() => setFadeOut(true), 2200);
+  //   const hideTimer = setTimeout(() => {
+  //     setShowWelcome(false);
+  //     navigate("/", { replace: true }); // only redirect from /
+  //   }, 3000);
+
+  //   return () => {
+  //     clearTimeout(fadeTimer);
+  //     clearTimeout(hideTimer);
+  //   };
+  // }, [navigate, location.pathname]);
+
+  // useEffect(() => {
+  //   const user = JSON.parse(localStorage.getItem("user")); // or get from redux
+  //   if (location.pathname === "/") {
+  //     if (user) {
+  //       navigate("/get-user", { replace: true });
+  //     } else {
+  //       navigate("/", { replace: true });
+  //     }
+  //   }
+  // }, [navigate, location.pathname]);
   useEffect(() => {
-    if (location.pathname !== "/") return; // exit if not home
+    if (location.pathname !== "/") return; // only run on home
 
     const fadeTimer = setTimeout(() => setFadeOut(true), 2200);
     const hideTimer = setTimeout(() => {
       setShowWelcome(false);
-      navigate("/", { replace: true }); // only redirect from /
+
+      const user = JSON.parse(localStorage.getItem("user"));
+      if (user) {
+        navigate("/get-user", { replace: true });
+      } else {
+        navigate("/", { replace: true });
+      }
     }, 3000);
 
     return () => {

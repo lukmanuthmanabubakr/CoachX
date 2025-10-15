@@ -11,7 +11,7 @@ const VerifyEmail = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
-  const { isLoading, isSuccess, isError } = useSelector((state) => state.auth);
+  const { user, isLoading, isSuccess, isError } = useSelector((state) => state.auth);
 
   const handleVerify = () => {
     console.log("Verifying email with token:", verificationToken);
@@ -27,15 +27,29 @@ const VerifyEmail = () => {
   useEffect(() => {
     if (isSuccess) {
       console.log("Email verified successfully!");
+      const storedUser = user || JSON.parse(localStorage.getItem("user"));
+
+      // Ensure we have a user object before redirecting
+      if (storedUser && storedUser.role) {
+        if (storedUser.role === "user") {
+          navigate("/upload-welcome-image", { replace: true });
+        } else if (storedUser.role === "creator") {
+          navigate("/creators-categories", { replace: true });
+        } else {
+          console.warn("Unknown role:", storedUser.role);
+        }
+      } else {
+        console.warn("No user role found after verification.");
+      }
+
       dispatch(reset());
-      navigate("/upload-welcome-image");
     }
 
     if (isError) {
       console.log("Email verification failed!");
       dispatch(reset());
     }
-  }, [isSuccess, isError, dispatch, navigate]);
+  }, [isSuccess, isError, user, dispatch, navigate]);
 
   return (
     <div className="verify-email-container">
