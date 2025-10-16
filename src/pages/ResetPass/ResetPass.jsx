@@ -14,7 +14,8 @@ const ResetPass = () => {
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirm, setShowConfirm] = useState(false);
 
-  const { token } = useParams(); // ✅ grab token from URL
+  // Option 2: One line
+  const { "reset-token": token } = useParams();
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
@@ -49,7 +50,10 @@ const ResetPass = () => {
     console.log("Token:", token);
     console.log("New password:", newPassword);
 
-    const passwordData = { password: newPassword };
+    const passwordData = {
+      password: newPassword,
+      passwordConfirm: confirmPassword, // <- include this
+    };
     dispatch(resetPassword({ token, passwordData }));
   };
 
