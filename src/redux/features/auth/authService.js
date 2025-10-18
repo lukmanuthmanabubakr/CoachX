@@ -119,6 +119,28 @@ const resetPassword = async ({ token, passwordData }) => {
   return response.data;
 };
 
+// Update user details
+const updateMe = async (userData, token) => {
+  const config = {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  };
+
+  const response = await axios.patch(`${API_URL}updateme`, userData, config);
+
+  // Merge with stored token
+  const storedUser = JSON.parse(localStorage.getItem("user")) || {};
+  const updatedUser = {
+    ...storedUser,
+    ...response.data.data.user,
+  };
+
+  localStorage.setItem("user", JSON.stringify(updatedUser));
+  return updatedUser;
+};
+
+
 const authService = {
   signup,
   login,
@@ -126,7 +148,8 @@ const authService = {
   verifyEmail,
   getMe,
   forgotPassword,
-  resetPassword
+  resetPassword,
+  updateMe
 };
 
 export default authService;

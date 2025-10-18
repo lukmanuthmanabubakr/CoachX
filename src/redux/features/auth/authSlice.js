@@ -7,7 +7,7 @@ const user = JSON.parse(localStorage.getItem("user"));
 
 const initialState = {
   user: user ? user : null,
-  isVerified: user?.is_verified || false, 
+  isVerified: user?.is_verified || false,
   isError: false,
   isSuccess: false,
   isLoading: false,
@@ -121,6 +121,26 @@ export const resetPassword = createAsyncThunk(
   }
 );
 
+// Update user details
+export const updateMe = createAsyncThunk(
+  "auth/updateMe",
+  async (userData, thunkAPI) => {
+    try {
+      const localUser = JSON.parse(localStorage.getItem("user"));
+      const token = localUser?.token;
+
+      if (!token) return thunkAPI.rejectWithValue("No token found");
+
+      const updatedUser = await authService.updateMe(userData, token);
+      return updatedUser;
+    } catch (error) {
+      const message =
+        error.response?.data?.message || error.message || "Update failed";
+      return thunkAPI.rejectWithValue(message);
+    }
+  }
+);
+
 const authSlice = createSlice({
   name: "auth",
   initialState,
@@ -150,9 +170,7 @@ const authSlice = createSlice({
         state.user = action.payload;
         state.isVerified = action.payload?.is_verified || false; // 👈 sync verification status
 
-        toast.success(
-          "Registration successful! Check your email to verify your account ✅"
-        );
+        toast.success("Registered Successfully!");
       })
       .addCase(signup.rejected, (state, action) => {
         state.isLoading = false;
@@ -171,14 +189,14 @@ const authSlice = createSlice({
         state.isLoading = false;
         state.isSuccess = true;
         state.user = action.payload;
-        toast.success("Login successful ✅");
+        toast.success("Login successful");
       })
       .addCase(login.rejected, (state, action) => {
         state.isLoading = false;
         state.isError = true;
         state.message = action.payload;
         state.user = null;
-        toast.error(action.payload || "Login failed ❌");
+        toast.error(action.payload || "Login failed");
       })
 
       //Verify EMAIL
@@ -190,7 +208,7 @@ const authSlice = createSlice({
         state.isSuccess = true;
         state.isVerified = true;
         state.user = action.payload.user; // ✅ now always defined
-        toast.success("Email verified successfully ✅");
+        toast.success("Email verified successfully");
       })
 
       .addCase(verifyEmail.rejected, (state, action) => {
@@ -223,13 +241,13 @@ const authSlice = createSlice({
         state.isLoading = false;
         state.isSuccess = true;
         state.message = action.payload.message;
-        toast.success(action.payload.message || "Password reset link sent ✅");
+        toast.success(action.payload.message || "Password reset link sent");
       })
       .addCase(forgotPassword.rejected, (state, action) => {
         state.isLoading = false;
         state.isError = true;
         state.message = action.payload;
-        toast.error(action.payload || "Failed to send reset link ❌");
+        toast.error(action.payload || "Failed to send reset link");
       })
       // Reset Password in extraReducers
       .addCase(resetPassword.pending, (state) => {
@@ -242,7 +260,7 @@ const authSlice = createSlice({
           ? { ...state.user, token: action.payload.token }
           : null;
         toast.success(
-          action.payload.message || "Password reset successfully ✅"
+          action.payload.message || "Password reset successfully"
         );
       })
       .addCase(resetPassword.rejected, (state, action) => {
@@ -250,6 +268,21 @@ const authSlice = createSlice({
         state.isError = true;
         state.message = action.payload;
         toast.error(action.payload || "Password reset failed ❌");
+      })
+      .addCase(updateMe.pending, (state) => {
+        state.isLoading = true;
+      })
+      .addCase(updateMe.fulfilled, (state, action) => {
+        state.isLoading = false;
+        state.isSuccess = true;
+        state.user = action.payload;
+        toast.success("Profile updated successfully");
+      })
+      .addCase(updateMe.rejected, (state, action) => {
+        state.isLoading = false;
+        state.isError = true;
+        state.message = action.payload;
+        toast.error(action.payload || "Failed to update profile ❌");
       });
   },
 });

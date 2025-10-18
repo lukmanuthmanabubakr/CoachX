@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { getMe, logout } from "../../redux/features/auth/authSlice";
 import { useNavigate } from "react-router-dom";
 import toast from "react-hot-toast";
+import PageLoader from "../../components/PageLoader/PageLoader";
 
 const GetUser = () => {
   const dispatch = useDispatch();
@@ -36,12 +37,12 @@ const GetUser = () => {
     navigate("/signin");
   };
 
-  if (isLoading) return <div className="loader">Loading user data...</div>;
+  if (isLoading) return <PageLoader />;
 
   if (isError) {
     // ❌ Don't just show error, redirect if needed
     if (message?.includes("You must be verified")) {
-      navigate("/check-mail-verification");
+      navigate("/email-not-verified");
       return null;
     }
 

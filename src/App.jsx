@@ -21,6 +21,15 @@ import SignIn from "./pages/SignIn/SignIn";
 import ForgetPass from "./pages/ForgetPass/ForgetPass";
 import ResetPass from "./pages/ResetPass/ResetPass";
 import ProtectedRoute from "./components/Protect/ProtectedRoute";
+import PageLoader from "./components/PageLoader/PageLoader";
+import UploadWelcomeImage from "./pages/UploadWelcomeImage/UploadWelcomeImage";
+import CheckSignPage from "./components/CheckSignPage/CheckSignPage";
+import Gender from "./components/Gender/Gender";
+import FitnessGoal from "./pages/FitnessGoal/FitnessGoal";
+import SignupCompleted from "./pages/SignupCompleted/SignupCompleted";
+import Preferences from "./pages/Preferences/Preferences";
+import Category from "./pages/Category/Category";
+import SubscriptionPrice from "./pages/SubscriptionPrice/SubscriptionPrice";
 
 const App = () => {
   const [showWelcome, setShowWelcome] = useState(true);
@@ -116,6 +125,19 @@ const App = () => {
           }
         />
         <Route
+          path="/email-not-verified"
+          element={
+            <motion.div
+              initial={{ opacity: 0, y: 50 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -50 }}
+              transition={{ duration: 0.5 }}
+            >
+              <CheckSignPage />
+            </motion.div>
+          }
+        />
+        <Route
           path="/verify-email/:verificationToken"
           element={
             <motion.div
@@ -138,6 +160,7 @@ const App = () => {
                 exit={{ opacity: 0, y: -50 }}
                 transition={{ duration: 0.5 }}
               >
+                {/* <PageLoader /> */}
                 <GetUser />
               </motion.div>
             }
@@ -182,6 +205,106 @@ const App = () => {
             </motion.div>
           }
         />
+        <Route
+          path="/upload-welcome-image"
+          element={
+            <motion.div
+              initial={{ opacity: 0, y: 50 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -50 }}
+              transition={{ duration: 0.5 }}
+            >
+              <UploadWelcomeImage />
+            </motion.div>
+          }
+        />
+        <Route element={<ProtectedRoute />}>
+          <Route
+            path="/select-gender"
+            element={
+              <motion.div
+                initial={{ opacity: 0, y: 50 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: -50 }}
+                transition={{ duration: 0.5 }}
+              >
+                <Gender />
+              </motion.div>
+            }
+          />
+        </Route>
+        <Route element={<ProtectedRoute />}>
+          <Route
+            path="/fitness-goal"
+            element={
+              <motion.div
+                initial={{ opacity: 0, y: 50 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: -50 }}
+                transition={{ duration: 0.5 }}
+              >
+                <FitnessGoal />
+              </motion.div>
+            }
+          />
+        </Route>
+
+        <Route
+          path="/signup-completed"
+          element={
+            <motion.div
+              initial={{ opacity: 0, y: 50 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -50 }}
+              transition={{ duration: 0.5 }}
+            >
+              <SignupCompleted />
+            </motion.div>
+          }
+        />
+        <Route
+          path="/choose-preferences"
+          element={
+            <motion.div
+              initial={{ opacity: 0, y: 50 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -50 }}
+              transition={{ duration: 0.5 }}
+            >
+              <Preferences />
+            </motion.div>
+          }
+        />
+        <Route element={<ProtectedRoute />}>
+          <Route
+            path="/creators-categories"
+            element={
+              <motion.div
+                initial={{ opacity: 0, y: 50 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: -50 }}
+                transition={{ duration: 0.5 }}
+              >
+                <Category />
+              </motion.div>
+            }
+          />
+        </Route>
+        <Route element={<ProtectedRoute />}>
+          <Route
+            path="/subscription-price"
+            element={
+              <motion.div
+                initial={{ opacity: 0, y: 50 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: -50 }}
+                transition={{ duration: 0.5 }}
+              >
+                <SubscriptionPrice />
+              </motion.div>
+            }
+          />
+        </Route>
       </Routes>
     </AnimatePresence>
   );
