@@ -5,15 +5,12 @@ import { Navigate, Outlet } from "react-router-dom";
 const ProtectedRoute = () => {
   const { user } = useSelector((state) => state.auth);
 
-  // Check both Redux state and localStorage (in case of refresh)
-  const isAuthenticated = user || localStorage.getItem("user");
-
-  // ❌ Not logged in → Redirect to login
-  if (!isAuthenticated) {
-    return <Navigate to="/signin" replace />;
+  // 🚨 If not authenticated
+  if (!user) {
+    return <Navigate to="/" replace />;
   }
 
-  // ✅ Logged in → Render the requested page
+  // ✅ If authenticated and verified
   return <Outlet />;
 };
 

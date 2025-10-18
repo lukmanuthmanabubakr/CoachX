@@ -1,23 +1,25 @@
 import React, { useState, useEffect } from "react";
-import { Route, Routes, useNavigate, useLocation } from "react-router-dom";
+import {
+  Route,
+  Routes,
+  useNavigate,
+  useLocation,
+  Navigate,
+} from "react-router-dom";
 import { AnimatePresence, motion } from "framer-motion";
+import { useDispatch, useSelector } from "react-redux"; // ✅ NEW
+import { getMe } from "./redux/features/auth/authSlice"; // ✅ NEW
+
 import Home from "./pages/Home/Home";
 import WelcomeLogo from "./components/WelcomeLogo/WelcomeLogo";
 import Onboard from "./pages/Onboard/Onboard";
 import SignUp from "./pages/SignUp/SignUp";
-import SignIn from "./pages/SignIn/SignIn";
 import CheckMailVer from "./pages/CheckMailVer/CheckMailVer";
+import VerifyEmail from "./pages/VerifyEmail/VerifyEmail";
+import GetUser from "./pages/GetUser/GetUser";
+import SignIn from "./pages/SignIn/SignIn";
 import ForgetPass from "./pages/ForgetPass/ForgetPass";
 import ResetPass from "./pages/ResetPass/ResetPass";
-import UploadWelcomeImage from "./pages/UploadWelcomeImage/UploadWelcomeImage";
-import Gender from "./components/Gender/Gender";
-import FitnessGoal from "./pages/FitnessGoal/FitnessGoal";
-import SignupCompleted from "./pages/SignupCompleted/SignupCompleted";
-import VerifyEmail from "./pages/VerifyEmail/VerifyEmail";
-import Preferences from "./pages/Preferences/Preferences";
-import Category from "./pages/Category/Category";
-import SubscriptionPrice from "./pages/SubscriptionPrice/SubscriptionPrice";
-import GetUser from "./pages/GetUser/GetUser";
 import ProtectedRoute from "./components/Protect/ProtectedRoute";
 
 const App = () => {
@@ -25,52 +27,24 @@ const App = () => {
   const [fadeOut, setFadeOut] = useState(false);
   const navigate = useNavigate();
   const location = useLocation();
+  const dispatch = useDispatch();
 
-  // useEffect(() => {
-  //   if (location.pathname !== "/") return; // exit if not home
+  const { user, isVerified } = useSelector((state) => state.auth); // ✅ NEW
 
-  //   const fadeTimer = setTimeout(() => setFadeOut(true), 2200);
-  //   const hideTimer = setTimeout(() => {
-  //     setShowWelcome(false);
-  //     navigate("/", { replace: true }); // only redirect from /
-  //   }, 3000);
-
-  //   return () => {
-  //     clearTimeout(fadeTimer);
-  //     clearTimeout(hideTimer);
-  //   };
-  // }, [navigate, location.pathname]);
-
-  // useEffect(() => {
-  //   const user = JSON.parse(localStorage.getItem("user")); // or get from redux
-  //   if (location.pathname === "/") {
-  //     if (user) {
-  //       navigate("/get-user", { replace: true });
-  //     } else {
-  //       navigate("/", { replace: true });
-  //     }
-  //   }
-  // }, [navigate, location.pathname]);
+  // Load current user on app mount
   useEffect(() => {
-    if (location.pathname !== "/") return; // only run on home
+    if (location.pathname === "/") {
+      const fadeTimer = setTimeout(() => setFadeOut(true), 2500);
+      const hideTimer = setTimeout(() => setShowWelcome(false), 3500);
 
-    const fadeTimer = setTimeout(() => setFadeOut(true), 2200);
-    const hideTimer = setTimeout(() => {
+      return () => {
+        clearTimeout(fadeTimer);
+        clearTimeout(hideTimer);
+      };
+    } else {
       setShowWelcome(false);
-
-      const user = JSON.parse(localStorage.getItem("user"));
-      if (user) {
-        navigate("/get-user", { replace: true });
-      } else {
-        navigate("/", { replace: true });
-      }
-    }, 3000);
-
-    return () => {
-      clearTimeout(fadeTimer);
-      clearTimeout(hideTimer);
-    };
-  }, [navigate, location.pathname]);
+    }
+  }, [location.pathname]);
 
   if (location.pathname === "/" && showWelcome) {
     return <WelcomeLogo fadeOut={fadeOut} />;
@@ -81,6 +55,16 @@ const App = () => {
       <Routes location={location} key={location.pathname}>
         <Route
           path="/"
+          element={
+            showWelcome ? (
+              <WelcomeLogo fadeOut={fadeOut} />
+            ) : (
+              <Navigate to="/home" replace />
+            )
+          }
+        />
+        <Route
+          path="/home"
           element={
             <motion.div
               initial={{ opacity: 0, y: 50 }}
@@ -119,19 +103,6 @@ const App = () => {
           }
         />
         <Route
-          path="/signin"
-          element={
-            <motion.div
-              initial={{ opacity: 0, y: 50 }}
-              animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: -50 }}
-              transition={{ duration: 0.5 }}
-            >
-              <SignIn />
-            </motion.div>
-          }
-        />
-        <Route
           path="/check-mail-verification"
           element={
             <motion.div
@@ -141,6 +112,47 @@ const App = () => {
               transition={{ duration: 0.5 }}
             >
               <CheckMailVer />
+            </motion.div>
+          }
+        />
+        <Route
+          path="/verify-email/:verificationToken"
+          element={
+            <motion.div
+              initial={{ opacity: 0, y: 50 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -50 }}
+              transition={{ duration: 0.5 }}
+            >
+              <VerifyEmail />
+            </motion.div>
+          }
+        />
+        <Route element={<ProtectedRoute />}>
+          <Route
+            path="/get-user"
+            element={
+              <motion.div
+                initial={{ opacity: 0, y: 50 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: -50 }}
+                transition={{ duration: 0.5 }}
+              >
+                <GetUser />
+              </motion.div>
+            }
+          />
+        </Route>
+        <Route
+          path="/signin"
+          element={
+            <motion.div
+              initial={{ opacity: 0, y: 50 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -50 }}
+              transition={{ duration: 0.5 }}
+            >
+              <SignIn />
             </motion.div>
           }
         />
@@ -170,131 +182,6 @@ const App = () => {
             </motion.div>
           }
         />
-        <Route
-          path="/upload-welcome-image"
-          element={
-            <motion.div
-              initial={{ opacity: 0, y: 50 }}
-              animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: -50 }}
-              transition={{ duration: 0.5 }}
-            >
-              <UploadWelcomeImage />
-            </motion.div>
-          }
-        />
-        <Route element={<ProtectedRoute />}>
-          <Route
-            path="/select-gender"
-            element={
-              <motion.div
-                initial={{ opacity: 0, y: 50 }}
-                animate={{ opacity: 1, y: 0 }}
-                exit={{ opacity: 0, y: -50 }}
-                transition={{ duration: 0.5 }}
-              >
-                <Gender />
-              </motion.div>
-            }
-          />
-        </Route>
-        <Route
-          path="/fitness-goal"
-          element={
-            <motion.div
-              initial={{ opacity: 0, y: 50 }}
-              animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: -50 }}
-              transition={{ duration: 0.5 }}
-            >
-              <FitnessGoal />
-            </motion.div>
-          }
-        />
-        <Route
-          path="/signup-completed"
-          element={
-            <motion.div
-              initial={{ opacity: 0, y: 50 }}
-              animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: -50 }}
-              transition={{ duration: 0.5 }}
-            >
-              <SignupCompleted />
-            </motion.div>
-          }
-        />
-        <Route
-          path="/verify-email/:verificationToken"
-          element={
-            <motion.div
-              initial={{ opacity: 0, y: 50 }}
-              animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: -50 }}
-              transition={{ duration: 0.5 }}
-            >
-              <VerifyEmail />
-            </motion.div>
-          }
-        />
-        <Route
-          path="/choose-preferences"
-          element={
-            <motion.div
-              initial={{ opacity: 0, y: 50 }}
-              animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: -50 }}
-              transition={{ duration: 0.5 }}
-            >
-              <Preferences />
-            </motion.div>
-          }
-        />
-        <Route element={<ProtectedRoute />}>
-          <Route
-            path="/creators-categories"
-            element={
-              <motion.div
-                initial={{ opacity: 0, y: 50 }}
-                animate={{ opacity: 1, y: 0 }}
-                exit={{ opacity: 0, y: -50 }}
-                transition={{ duration: 0.5 }}
-              >
-                <Category />
-              </motion.div>
-            }
-          />
-        </Route>
-        <Route element={<ProtectedRoute />}>
-          <Route
-            path="/subscription-price"
-            element={
-              <motion.div
-                initial={{ opacity: 0, y: 50 }}
-                animate={{ opacity: 1, y: 0 }}
-                exit={{ opacity: 0, y: -50 }}
-                transition={{ duration: 0.5 }}
-              >
-                <SubscriptionPrice />
-              </motion.div>
-            }
-          />
-        </Route>
-        <Route element={<ProtectedRoute />}>
-          <Route
-            path="/get-user"
-            element={
-              <motion.div
-                initial={{ opacity: 0, y: 50 }}
-                animate={{ opacity: 1, y: 0 }}
-                exit={{ opacity: 0, y: -50 }}
-                transition={{ duration: 0.5 }}
-              >
-                <GetUser />
-              </motion.div>
-            }
-          />
-        </Route>
       </Routes>
     </AnimatePresence>
   );

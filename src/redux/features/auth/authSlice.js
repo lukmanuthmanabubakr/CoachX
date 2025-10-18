@@ -1,37 +1,35 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
-import toast from "react-hot-toast";
 import authService from "./authService";
+import toast from "react-hot-toast";
 
 // Get user from localStorage
 const user = JSON.parse(localStorage.getItem("user"));
 
 const initialState = {
   user: user ? user : null,
-  isLoading: false,
+  isVerified: user?.is_verified || false, 
   isError: false,
   isSuccess: false,
+  isLoading: false,
   message: "",
 };
 
-// Signup
+// Register user
 export const signup = createAsyncThunk(
   "auth/signup",
   async (userData, thunkAPI) => {
     try {
-      return await authService.signup(userData);
+      const response = await authService.signup(userData);
+      return response;
     } catch (error) {
       const message =
-        (error.response &&
-          error.response.data &&
-          error.response.data.message) ||
-        error.message ||
-        error.toString();
+        error.response?.data?.message || error.message || "Signup failed";
       return thunkAPI.rejectWithValue(message);
     }
   }
 );
 
-// Login
+// Login user
 export const login = createAsyncThunk(
   "auth/login",
   async (userData, thunkAPI) => {
@@ -39,15 +37,57 @@ export const login = createAsyncThunk(
       return await authService.login(userData);
     } catch (error) {
       const message =
-        (error.response &&
-          error.response.data &&
-          error.response.data.message) ||
-        error.message ||
-        error.toString();
+        error.response?.data?.message || error.message || "Login failed";
       return thunkAPI.rejectWithValue(message);
     }
   }
 );
+
+export const verifyEmail = createAsyncThunk(
+  "auth/verifyEmail",
+  async (token, thunkAPI) => {
+    try {
+      const response = await authService.verifyEmail(token);
+
+      // ✅ get local user & mark verified manually
+      const storedUser = JSON.parse(localStorage.getItem("user"));
+      const updatedUser = {
+        ...storedUser,
+        is_verified: true,
+      };
+      localStorage.setItem("user", JSON.stringify(updatedUser));
+
+      return { message: response.message, user: updatedUser };
+    } catch (error) {
+      const message =
+        error.response?.data?.message ||
+        error.message ||
+        "Email verification failed";
+      return thunkAPI.rejectWithValue(message);
+    }
+  }
+);
+
+// Get user (fetch latest data)
+export const getMe = createAsyncThunk("auth/getMe", async (_, thunkAPI) => {
+  try {
+    const localUser = JSON.parse(localStorage.getItem("user"));
+    const token = localUser?.token;
+
+    if (!token) {
+      return thunkAPI.rejectWithValue("No token found");
+    }
+
+    const user = await authService.getMe(token);
+    return user;
+  } catch (error) {
+    const message =
+      error.response?.data?.message ||
+      error.message ||
+      "Unable to fetch user data";
+    return thunkAPI.rejectWithValue(message);
+  }
+});
 
 // Forgot Password
 export const forgotPassword = createAsyncThunk(
@@ -56,7 +96,10 @@ export const forgotPassword = createAsyncThunk(
     try {
       return await authService.forgotPassword(emailData);
     } catch (error) {
-      const message = error.response?.data?.message || error.message;
+      const message =
+        error.response?.data?.message ||
+        error.message ||
+        "Forgot password failed";
       return thunkAPI.rejectWithValue(message);
     }
   }
@@ -67,59 +110,16 @@ export const resetPassword = createAsyncThunk(
   "auth/resetPassword",
   async ({ token, passwordData }, thunkAPI) => {
     try {
-      return await authService.resetPassword(token, passwordData);
-    } catch (error) {
-      const message = error.response?.data?.message || error.message;
-      return thunkAPI.rejectWithValue(message);
-    }
-  }
-);
-
-// Logout
-export const logout = createAsyncThunk("auth/logout", async () => {
-  authService.logout();
-});
-
-// Verify Email
-export const verifyEmail = createAsyncThunk(
-  "auth/verifyEmail",
-  async (token, thunkAPI) => {
-    try {
-      return await authService.verifyEmail(token);
+      return await authService.resetPassword({ token, passwordData });
     } catch (error) {
       const message =
-        error.response?.data?.message || error.message || error.toString();
+        error.response?.data?.message ||
+        error.message ||
+        "Password reset failed";
       return thunkAPI.rejectWithValue(message);
     }
   }
 );
-
-// Update Me
-export const updateMe = createAsyncThunk(
-  "auth/updateMe",
-  async (userData, thunkAPI) => {
-    try {
-      const token = thunkAPI.getState().auth.user?.token;
-      return await authService.updateMe(userData, token);
-    } catch (error) {
-      const message =
-        error.response?.data?.message || error.message || error.toString();
-      return thunkAPI.rejectWithValue(message);
-    }
-  }
-);
-
-// Get Me
-export const getMe = createAsyncThunk("auth/getMe", async (_, thunkAPI) => {
-  try {
-    const token = thunkAPI.getState().auth.user?.token;
-    return await authService.getMe(token);
-  } catch (error) {
-    const message =
-      error.response?.data?.message || error.message || error.toString();
-    return thunkAPI.rejectWithValue(message);
-  }
-});
 
 const authSlice = createSlice({
   name: "auth",
@@ -127,47 +127,43 @@ const authSlice = createSlice({
   reducers: {
     reset: (state) => {
       state.isLoading = false;
-      state.isError = false;
       state.isSuccess = false;
+      state.isError = false;
       state.message = "";
+    },
+    logout: (state) => {
+      authService.logout();
+      state.user = null;
+      state.isVerified = false; // 👈 reset verification state
+      toast.success("You have logged out successfully");
     },
   },
   extraReducers: (builder) => {
     builder
-      // ✅ Signup
+      // Signup
       .addCase(signup.pending, (state) => {
         state.isLoading = true;
       })
       .addCase(signup.fulfilled, (state, action) => {
         state.isLoading = false;
         state.isSuccess = true;
+        state.user = action.payload;
+        state.isVerified = action.payload?.is_verified || false; // 👈 sync verification status
 
-        // store both token and user together
-        state.user = {
-          token: action.payload.token,
-          ...action.payload.data.user,
-        };
-
-        // persist in localStorage
-        localStorage.setItem(
-          "user",
-          JSON.stringify({
-            token: action.payload.token,
-            ...action.payload.data.user,
-          })
+        toast.success(
+          "Registration successful! Check your email to verify your account ✅"
         );
-
-        toast.success("Account created successfully!");
       })
-
       .addCase(signup.rejected, (state, action) => {
         state.isLoading = false;
         state.isError = true;
         state.message = action.payload;
-        toast.error(action.payload);
+        state.user = null;
+        state.isVerified = false;
+
+        toast.error(action.payload || "Signup failed. Try again.");
       })
 
-      // ✅ Login
       .addCase(login.pending, (state) => {
         state.isLoading = true;
       })
@@ -175,85 +171,35 @@ const authSlice = createSlice({
         state.isLoading = false;
         state.isSuccess = true;
         state.user = action.payload;
-        toast.success("Login successful!");
+        toast.success("Login successful ✅");
       })
       .addCase(login.rejected, (state, action) => {
         state.isLoading = false;
         state.isError = true;
         state.message = action.payload;
         state.user = null;
-        toast.error(action.payload);
+        toast.error(action.payload || "Login failed ❌");
       })
 
-      // Forgot password
-      .addCase(forgotPassword.pending, (state) => {
-        state.isLoading = true;
-      })
-      .addCase(forgotPassword.fulfilled, (state) => {
-        state.isLoading = false;
-        state.isSuccess = true;
-        toast.success("Password reset link sent! Check your email.");
-      })
-      .addCase(forgotPassword.rejected, (state, action) => {
-        state.isLoading = false;
-        state.isError = true;
-        state.message = action.payload;
-        toast.error(action.payload);
-      })
-
-      // Reset password
-      .addCase(resetPassword.pending, (state) => {
-        state.isLoading = true;
-      })
-      .addCase(resetPassword.fulfilled, (state) => {
-        state.isLoading = false;
-        state.isSuccess = true;
-        toast.success("Password reset successful.");
-      })
-      .addCase(resetPassword.rejected, (state, action) => {
-        state.isLoading = false;
-        state.isError = true;
-        state.message = action.payload;
-        toast.error(action.payload);
-      })
-
-      // Logout
-      .addCase(logout.fulfilled, (state) => {
-        state.user = null;
-        toast.success("Logged out successfully.");
-      })
-
-      // ✅ Verify Email
+      //Verify EMAIL
       .addCase(verifyEmail.pending, (state) => {
         state.isLoading = true;
       })
-      .addCase(verifyEmail.fulfilled, (state) => {
+      .addCase(verifyEmail.fulfilled, (state, action) => {
         state.isLoading = false;
         state.isSuccess = true;
-        toast.success("Email verified successfully!");
+        state.isVerified = true;
+        state.user = action.payload.user; // ✅ now always defined
+        toast.success("Email verified successfully ✅");
       })
+
       .addCase(verifyEmail.rejected, (state, action) => {
         state.isLoading = false;
         state.isError = true;
-        toast.error(action.payload);
+        state.message = action.payload;
+        toast.error(action.payload || "Email verification failed ❌");
       })
-      // ✅ Update Me
-      .addCase(updateMe.pending, (state) => {
-        state.isLoading = true;
-      })
-      .addCase(updateMe.fulfilled, (state, action) => {
-        state.isLoading = false;
-        state.isSuccess = true;
-        state.user = { ...state.user, ...action.payload };
-        toast.success("Updated successfully!");
-      })
-      .addCase(updateMe.rejected, (state, action) => {
-        state.isLoading = false;
-        state.isError = true;
-        toast.error(action.payload);
-      })
-
-      // ✅ Get Me
+      // Get user
       .addCase(getMe.pending, (state) => {
         state.isLoading = true;
       })
@@ -261,14 +207,52 @@ const authSlice = createSlice({
         state.isLoading = false;
         state.isSuccess = true;
         state.user = action.payload;
+        state.isVerified = action.payload?.is_verified || false;
+        localStorage.setItem("user", JSON.stringify(action.payload));
       })
       .addCase(getMe.rejected, (state, action) => {
         state.isLoading = false;
         state.isError = true;
-        toast.error(action.payload);
+        state.message = action.payload;
+      })
+      //Forgot Password
+      .addCase(forgotPassword.pending, (state) => {
+        state.isLoading = true;
+      })
+      .addCase(forgotPassword.fulfilled, (state, action) => {
+        state.isLoading = false;
+        state.isSuccess = true;
+        state.message = action.payload.message;
+        toast.success(action.payload.message || "Password reset link sent ✅");
+      })
+      .addCase(forgotPassword.rejected, (state, action) => {
+        state.isLoading = false;
+        state.isError = true;
+        state.message = action.payload;
+        toast.error(action.payload || "Failed to send reset link ❌");
+      })
+      // Reset Password in extraReducers
+      .addCase(resetPassword.pending, (state) => {
+        state.isLoading = true;
+      })
+      .addCase(resetPassword.fulfilled, (state, action) => {
+        state.isLoading = false;
+        state.isSuccess = true;
+        state.user = state.user
+          ? { ...state.user, token: action.payload.token }
+          : null;
+        toast.success(
+          action.payload.message || "Password reset successfully ✅"
+        );
+      })
+      .addCase(resetPassword.rejected, (state, action) => {
+        state.isLoading = false;
+        state.isError = true;
+        state.message = action.payload;
+        toast.error(action.payload || "Password reset failed ❌");
       });
   },
 });
 
-export const { reset } = authSlice.actions;
+export const { reset, logout } = authSlice.actions;
 export default authSlice.reducer;

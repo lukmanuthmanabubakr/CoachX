@@ -11,12 +11,14 @@ import { signup, reset } from "../../redux/features/auth/authSlice";
 import Loader from "../Loader/Loader";
 
 const Register = ({ role, setStep }) => {
+  // ✅ Initialize form state
   const [form, setForm] = useState({
     name: "",
     email: "",
     password: "",
     confirmPassword: "",
   });
+
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirm, setShowConfirm] = useState(false);
   const [strength, setStrength] = useState("");
@@ -25,23 +27,31 @@ const Register = ({ role, setStep }) => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
-  const { user, isLoading, isError, isSuccess } = useSelector(
+  const { user, isLoading, isError, isSuccess, message } = useSelector(
     (state) => state.auth
   );
 
   useEffect(() => {
-    if (isSuccess && user) {
-      const timer = setTimeout(() => {
-        navigate("/check-mail-verification");
-      }, 1000); // wait 2 seconds after toast
-      return () => clearTimeout(timer);
+    if (isError) {
+      setError(message || "Signup failed. Please try again.");
     }
-    dispatch(reset());
-  }, [user, isSuccess, isError, navigate, dispatch]);
+
+    if (isSuccess || user) {
+      // Navigate first (this unmounts Register smoothly)
+      navigate("/check-mail-verification");
+    }
+  }, [user, isError, isSuccess, message, navigate]);
+
+  // 👇 Run reset only once after navigation or unmount
+  useEffect(() => {
+    return () => {
+      dispatch(reset());
+    };
+  }, [dispatch]);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
-    setForm({ ...form, [name]: value });
+    setForm((prev) => ({ ...prev, [name]: value }));
     if (name === "password") checkStrength(value);
   };
 
@@ -56,15 +66,17 @@ const Register = ({ role, setStep }) => {
     if (/[^A-Za-z0-9]/.test(password)) score++;
 
     if (score <= 1) setStrength("Weak");
-    else if (score === 2 || score === 3) setStrength("Medium");
-    else if (score >= 4) setStrength("Strong");
-    else setStrength("");
+    else if (score <= 3) setStrength("Medium");
+    else setStrength("Strong");
   };
 
-  const allFilled = form.name && form.email && form.password && form.confirmPassword;
+  const allFilled =
+    form.name && form.email && form.password && form.confirmPassword;
   const isStrongPassword = strength === "Strong";
   const passwordsMatch =
-    form.password && form.confirmPassword && form.password === form.confirmPassword;
+    form.password &&
+    form.confirmPassword &&
+    form.password === form.confirmPassword;
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -82,6 +94,7 @@ const Register = ({ role, setStep }) => {
         passwordConfirm: form.confirmPassword,
         role,
       };
+      console.log("📦 Sending signup data:", userData);
       dispatch(signup(userData));
     }
   };
@@ -155,7 +168,11 @@ const Register = ({ role, setStep }) => {
                 value={form.password}
                 onChange={handleChange}
               />
-              <button type="button" className="toggle-password" onClick={togglePassword}>
+              <button
+                type="button"
+                className="toggle-password"
+                onClick={togglePassword}
+              >
                 {showPassword ? <FaEyeSlash /> : <FaEye />}
               </button>
             </div>
@@ -184,15 +201,23 @@ const Register = ({ role, setStep }) => {
                 value={form.confirmPassword}
                 onChange={handleChange}
               />
-              <button type="button" className="toggle-password" onClick={toggleConfirm}>
+              <button
+                type="button"
+                className="toggle-password"
+                onClick={toggleConfirm}
+              >
                 {showConfirm ? <FaEyeSlash /> : <FaEye />}
               </button>
             </div>
 
             <button
               type="submit"
-              className={`register-btn ${allFilled && isStrongPassword && passwordsMatch ? "active" : ""}`}
-              disabled={!allFilled || !isStrongPassword || !passwordsMatch || isLoading}
+              className={`register-btn ${
+                allFilled && isStrongPassword && passwordsMatch ? "active" : ""
+              }`}
+              disabled={
+                !allFilled || !isStrongPassword || !passwordsMatch || isLoading
+              }
             >
               {isLoading ? <Loader /> : "Sign Up"}
             </button>

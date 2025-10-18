@@ -17,7 +17,7 @@ const SignIn = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
-  const { user, isLoading, isError, isSuccess, message } = useSelector(
+  const { user, isVerified, isLoading, isError, isSuccess, message } = useSelector(
     (state) => state.auth
   );
 
@@ -36,21 +36,6 @@ const SignIn = () => {
     }
   };
 
-  // Handle login response
-  // useEffect(() => {
-  //   if (isSuccess && user) {
-  //     console.log("✅ Login successful:", user);
-  //     navigate("/dashboard");
-  //   }
-
-  //   if (isError) {
-  //     console.log("❌ Login failed:", message);
-  //     setErrorMessage(message);
-  //   }
-
-  //   dispatch(reset());
-  // }, [user, isSuccess, isError, message, navigate, dispatch]);
-
   useEffect(() => {
     if (isSuccess && user) {
       navigate("/get-user");
@@ -61,7 +46,16 @@ const SignIn = () => {
     }
 
     dispatch(reset());
-  }, [user, isSuccess, isError, message, navigate, dispatch]);
+  }, [isSuccess, isError, user, message, dispatch, navigate]);
+
+  // useEffect(() => {
+  //   if (user && isVerified == true) {
+  //     navigate("/get-user");
+  //   }
+  //   if (user && isVerified == false) {
+  //     navigate("/check-mail-verification");
+  //   }
+  // }, [user, isVerified, navigate]);
 
   return (
     <motion.div

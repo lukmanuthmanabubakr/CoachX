@@ -10,46 +10,47 @@ const VerifyEmail = () => {
   const { verificationToken } = useParams();
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const [buttonLoading, setButtonLoading] = React.useState(false);
 
-  const { user, isLoading, isSuccess, isError } = useSelector((state) => state.auth);
+  const { user, isLoading, isSuccess, isError } = useSelector(
+    (state) => state.auth
+  );
 
-  const handleVerify = () => {
-    console.log("Verifying email with token:", verificationToken);
 
-    if (!verificationToken) {
-      console.log("No verification token found in URL.");
-      return;
+  const handleVerify = async () => {
+    if (!verificationToken) return;
+
+    setButtonLoading(true);
+    try {
+      await dispatch(verifyEmail(verificationToken)).unwrap();
+    } catch (err) {
+      console.error("Verification failed:", err);
+    } finally {
+      setButtonLoading(false);
     }
-
-    dispatch(verifyEmail(verificationToken));
   };
 
   useEffect(() => {
-    if (isSuccess) {
-      console.log("Email verified successfully!");
-      const storedUser = user || JSON.parse(localStorage.getItem("user"));
+    if (isSuccess && user?.is_verified) {
+      console.log("✅ Email verified successfully!");
 
-      // Ensure we have a user object before redirecting
-      if (storedUser && storedUser.role) {
-        if (storedUser.role === "user") {
-          navigate("/upload-welcome-image", { replace: true });
-        } else if (storedUser.role === "creator") {
-          navigate("/creators-categories", { replace: true });
-        } else {
-          console.warn("Unknown role:", storedUser.role);
-        }
+      // Redirect based on role
+      if (user.role === "user") {
+        navigate("/upload-welcome-image", { replace: true });
+      } else if (user.role === "creator") {
+        navigate("/creators-categories", { replace: true });
       } else {
-        console.warn("No user role found after verification.");
+        console.warn("Unknown role:", user.role);
       }
 
       dispatch(reset());
     }
 
     if (isError) {
-      console.log("Email verification failed!");
+      console.log("❌ Email verification failed!");
       dispatch(reset());
     }
-  }, [isSuccess, isError, user, dispatch, navigate]);
+  }, [isSuccess, isError, user, navigate, dispatch]);
 
   return (
     <div className="verify-email-container">
@@ -64,12 +65,13 @@ const VerifyEmail = () => {
           Please click the button below to verify your account.
         </p>
 
+
         <button
-          className={`verify-email-btn ${isLoading ? "loading" : ""}`}
+          className={`verify-email-btn ${buttonLoading ? "loading" : ""}`}
           onClick={handleVerify}
-          disabled={isLoading}
+          disabled={buttonLoading}
         >
-          {isLoading ? <Loader /> : "Verify Email"}
+          {buttonLoading ? <Loader /> : "Verify Email"}
         </button>
       </motion.div>
     </div>

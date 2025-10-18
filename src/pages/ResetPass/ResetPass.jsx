@@ -62,7 +62,7 @@ const ResetPass = () => {
       setNewPassword("");
       setConfirmPassword("");
       dispatch(reset());
-      navigate("/signin");
+      navigate("/signin"); // redirect to login after successful reset
     }
 
     if (isError) {
