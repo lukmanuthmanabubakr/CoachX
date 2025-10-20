@@ -1,9 +1,11 @@
 import React, { useState } from "react";
 import "./FollowTopMember.css";
 import coschImg from "../../assets/coach1.jpeg";
+import { useNavigate } from "react-router-dom";
 
 const FollowTopMember = () => {
   const [selectedCoaches, setSelectedCoaches] = useState([]);
+  const navigate = useNavigate();
 
   const coaches = [
     {
@@ -70,6 +72,13 @@ const FollowTopMember = () => {
     );
   };
 
+  const handleBack = () => {
+    navigate("/choose-preferences");
+  };
+  const handleNext = () => {
+    navigate("/signup-completed");
+  };
+
   return (
     <div className="selectCoach-container">
       <div className="selectCoach-card">
@@ -113,10 +122,13 @@ const FollowTopMember = () => {
         </div>
 
         <div className="bottom-buttons">
-          <button className="back-btn">Back</button>
+          <button className="back-btn" onClick={handleBack}>
+            Back
+          </button>
           <button
             className="finish-btn"
             disabled={selectedCoaches.length === 0}
+            onClick={handleNext}
           >
             Finish
           </button>

@@ -267,32 +267,40 @@ const App = () => {
             </motion.div>
           }
         />
-        <Route
-          path="/choose-preferences"
-          element={
-            <motion.div
-              initial={{ opacity: 0, y: 50 }}
-              animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: -50 }}
-              transition={{ duration: 0.5 }}
-            >
-              <Preferences />
-            </motion.div>
-          }
-        />
-        <Route
-          path="/select-coach"
-          element={
-            <motion.div
-              initial={{ opacity: 0, y: 50 }}
-              animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: -50 }}
-              transition={{ duration: 0.5 }}
-            >
-              <FollowTopMember />
-            </motion.div>
-          }
-        />
+        <Route element={<CheckGender />}>
+          <Route element={<CheckFitnessGoal />}>
+            <Route
+              path="/choose-preferences"
+              element={
+                <motion.div
+                  initial={{ opacity: 0, y: 50 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={{ opacity: 0, y: -50 }}
+                  transition={{ duration: 0.5 }}
+                >
+                  <Preferences />
+                </motion.div>
+              }
+            />
+          </Route>
+        </Route>
+        <Route element={<CheckGender />}>
+          <Route element={<CheckFitnessGoal />}>
+            <Route
+              path="/select-coach"
+              element={
+                <motion.div
+                  initial={{ opacity: 0, y: 50 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={{ opacity: 0, y: -50 }}
+                  transition={{ duration: 0.5 }}
+                >
+                  <FollowTopMember />
+                </motion.div>
+              }
+            />
+          </Route>
+        </Route>
         <Route element={<ProtectedRoute />}>
           <Route
             path="/creators-categories"

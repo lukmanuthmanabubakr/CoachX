@@ -17,7 +17,7 @@ const Preferences = () => {
 
   const handleNext = () => {
     if (selectedPreferences.length === 0) return;
-    navigate("/complete"); // next route after selecting preferences
+    navigate("/select-coach"); // next route after selecting preferences
   };
 
   const handleBack = () => {
