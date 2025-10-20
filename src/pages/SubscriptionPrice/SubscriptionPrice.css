@@ -1,0 +1,114 @@
+.creator-price {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  background: var(--subscription-bg);
+}
+
+.creator-price-container {
+  max-width: 400px;
+  width: 100%;
+}
+
+.creator-price-card {
+  background: var(--subscription-card-bg);
+  padding: 2rem;
+  border-radius: 16px;
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.08);
+  text-align: center;
+  border: 1px solid var(--subscription-border);
+}
+
+.step-indicator {
+  font-size: 0.9rem;
+  color: var(--subscription-text);
+  margin-bottom: 1rem;
+}
+
+.creator-price-card h1 {
+  font-size: 1.5rem;
+  margin-bottom: 0.5rem;
+  color: var(--subscription-text);
+}
+
+.price-sub {
+  color: var(--subscription-text);
+  margin-bottom: 1.5rem;
+}
+
+.price-input {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 2rem;
+  margin-bottom: 2rem;
+}
+
+.currency-symbol {
+  font-size: 1.5rem;
+  margin-right: 0.25rem;
+  color: var(--subscription-currency);
+  font-weight: 600;
+}
+
+.price-input input {
+  width: 100px;
+  font-size: 1.8rem;
+  text-align: center;
+  padding: 0.5rem;
+  border: 1px solid var(--subscription-border);
+  border-radius: 8px;
+  background: #fff;
+  color: var(--subscription-text);
+}
+
+.price-input input:focus {
+  outline: 2px solid var(--subscription-btn-focus);
+}
+
+.per-month {
+  font-size: 1rem;
+  color: var(--subscription-text);
+  margin-left: 0.25rem;
+}
+
+.price-actions {
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+}
+
+.back-btn,
+.save-btn {
+  flex: 1;
+  padding: 0.75rem;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: 500;
+  transition: all 0.2s ease;
+}
+
+.back-btn {
+  background: #f5f5f5;
+  color: var(--subscription-text);
+}
+
+.back-btn:hover {
+  background: #ececec;
+}
+
+.save-btn {
+  background: var(--subscription-btn-bg);
+  color: var(--subscription-btn-text);
+}
+
+.save-btn:hover {
+  background: var(--subscription-btn-focus);
+}
+
+.save-btn.disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}

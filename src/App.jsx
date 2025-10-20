@@ -205,19 +205,21 @@ const App = () => {
             </motion.div>
           }
         />
-        <Route
-          path="/upload-welcome-image"
-          element={
-            <motion.div
-              initial={{ opacity: 0, y: 50 }}
-              animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: -50 }}
-              transition={{ duration: 0.5 }}
-            >
-              <UploadWelcomeImage />
-            </motion.div>
-          }
-        />
+        <Route element={<ProtectedRoute />}>
+          <Route
+            path="/upload-welcome-image"
+            element={
+              <motion.div
+                initial={{ opacity: 0, y: 50 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: -50 }}
+                transition={{ duration: 0.5 }}
+              >
+                <UploadWelcomeImage />
+              </motion.div>
+            }
+          />
+        </Route>
         <Route element={<ProtectedRoute />}>
           <Route
             path="/select-gender"

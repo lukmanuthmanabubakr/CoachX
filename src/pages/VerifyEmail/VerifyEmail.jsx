@@ -2,7 +2,7 @@ import React, { useEffect } from "react";
 import { motion } from "framer-motion";
 import { useParams, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { verifyEmail, reset } from "../../redux/features/auth/authSlice";
+import { verifyEmail, reset, getMe } from "../../redux/features/auth/authSlice";
 import "./VerifyEmail.css";
 import Loader from "../../components/Loader/Loader";
 
@@ -24,32 +24,42 @@ const VerifyEmail = () => {
     dispatch(verifyEmail(verificationToken));
   };
 
-  useEffect(() => {
-    if (isSuccess) {
-      console.log("Email verified successfully!");
-      const storedUser = user || JSON.parse(localStorage.getItem("user"));
+useEffect(() => {
+  if (isSuccess) {
+    console.log("Email verified successfully!");
+    const storedUser = JSON.parse(localStorage.getItem("user"));
 
-      // Ensure we have a user object before redirecting
-      if (storedUser && storedUser.role) {
-        if (storedUser.role === "user") {
-          navigate("/upload-welcome-image", { replace: true });
-        } else if (storedUser.role === "creator") {
-          navigate("/creators-categories", { replace: true });
+    if (storedUser?.token) {
+      // Fetch full user data after verification
+      dispatch(getMe()).then((res) => {
+        const fullUser = res.payload;
+
+        if (fullUser && fullUser.role) {
+          if (fullUser.role === "user") {
+            navigate("/upload-welcome-image", { replace: true });
+          } else if (fullUser.role === "creator") {
+            navigate("/creators-categories", { replace: true });
+          } else {
+            console.warn("Unknown role:", fullUser.role);
+          }
         } else {
-          console.warn("Unknown role:", storedUser.role);
+          console.warn("No user role found even after getMe().");
         }
-      } else {
-        console.warn("No user role found after verification.");
-      }
 
+        dispatch(reset());
+      });
+    } else {
+      console.warn("No token found in localStorage after verification.");
       dispatch(reset());
     }
+  }
 
-    if (isError) {
-      console.log("Email verification failed!");
-      dispatch(reset());
-    }
-  }, [isSuccess, isError, user, dispatch, navigate]);
+  if (isError) {
+    console.log("Email verification failed!");
+    dispatch(reset());
+  }
+}, [isSuccess, isError, dispatch, navigate]);
+
 
   return (
     <div className="verify-email-container">

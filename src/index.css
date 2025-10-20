@@ -122,4 +122,14 @@ body {
 
   --loader-color: #ff781f; /* same bright orange as your button */
   --loader-bg: rgba(0, 0, 0, 0.1);
+
+  /* Subscription price */
+  --subscription-bg: #fff4ed; /* soft light background */
+  --subscription-card-bg: #ffffff; /* clean white card */
+  --subscription-text: #5b514a; /* warm dark brown for text */
+  --subscription-border: #ffd3a6; /* light orange border */
+  --subscription-btn-bg: #ff8b35; /* bright orange button */
+  --subscription-btn-text: #ffffff; /* white text for button */
+  --subscription-btn-focus: #ff781f; /* darker orange on hover/focus */
+  --subscription-currency: #ff8b35;
 }

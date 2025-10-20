@@ -1,0 +1,91 @@
+
+.checkSignPage-container {
+  background-color: var(--check-verify-bg);
+  color: var(--check-verify-text);
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 2rem;
+}
+
+.checkSignPage-card {
+  background-color: var(--check-verify-card-bg);
+  border-radius: 1.5rem;
+  padding: 3rem 2rem;
+  max-width: 420px;
+  width: 100%;
+  text-align: center;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+}
+
+.checkSignPage-logo {
+  width: 110px;
+  margin-bottom: 1.5rem;
+}
+
+.checkSignPage-illustration {
+  width: 140px;
+  margin-bottom: 1.5rem;
+}
+
+.checkSignPage-card h2 {
+  font-size: 1.8rem;
+  font-weight: 700;
+  margin-bottom: 0.8rem;
+}
+
+.checkSignPage-card p {
+  font-size: 0.95rem;
+  margin-bottom: 1.8rem;
+  opacity: 0.9;
+  line-height: 1.6;
+}
+
+.resend-btn {
+  width: 100%;
+  padding: 1rem;
+  border: none;
+  border-radius: 0.9rem;
+  background-color: var(--check-verify-btn-bg);
+  color: var(--check-verify-btn-text);
+  font-weight: 600;
+  font-size: 1rem;
+  transition: all 0.3s ease;
+  cursor: pointer;
+}
+
+.resend-btn:hover {
+  transform: translateY(-2px);
+  background-color: var(--check-verify-focus);
+}
+
+.signin-back {
+  margin-top: 1rem;
+  font-size: 0.9rem;
+}
+
+.signin-back-link {
+  color: var(--check-verify-focus);
+  text-decoration: none;
+  font-weight: 500;
+}
+
+.signin-back-link:hover {
+  text-decoration: underline;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .checkSignPage-card {
+    padding: 2rem 1.5rem;
+  }
+
+  .checkSignPage-card h2 {
+    font-size: 1.6rem;
+  }
+
+  .checkSignPage-illustration {
+    width: 120px;
+  }
+}

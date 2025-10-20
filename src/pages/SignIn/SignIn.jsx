@@ -48,14 +48,6 @@ const SignIn = () => {
     dispatch(reset());
   }, [isSuccess, isError, user, message, dispatch, navigate]);
 
-  // useEffect(() => {
-  //   if (user && isVerified == true) {
-  //     navigate("/get-user");
-  //   }
-  //   if (user && isVerified == false) {
-  //     navigate("/check-mail-verification");
-  //   }
-  // }, [user, isVerified, navigate]);
 
   return (
     <motion.div

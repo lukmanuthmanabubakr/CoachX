@@ -5,8 +5,9 @@ import "./CheckMailVer.css";
 import logo from "../../assets/CoachX.svg";
 
 const CheckMailVer = () => {
-  const handleResend = () => {
-    console.log("Resend verification email");
+  const handleGoToGmail = () => {
+    // Open Gmail in a new tab
+    window.open("https://mail.google.com", "_blank");
   };
 
   return (
@@ -22,12 +23,12 @@ const CheckMailVer = () => {
 
         <h2>Check Your Email</h2>
         <p>
-          We’ve sent a verification link to your email address.
-          Please verify your account to continue.
+          We’ve sent a verification link to your email address. Please verify
+          your account to continue.
         </p>
 
-        <button className="resend-btn" onClick={handleResend}>
-          Resend Verification Email
+        <button className="resend-btn" onClick={handleGoToGmail}>
+          Go to Gmail
         </button>
 
         <p className="signin-back">
