@@ -5,6 +5,7 @@
   justify-content: center;
   align-items: center;
   padding: 40px 20px;
+  overflow-y: auto;
 }
 
 .selectCoach-card {
@@ -109,6 +110,12 @@
   cursor: pointer;
   transition: all 0.3s ease;
 }
+/* Disabled state for Finish button */
+.selectCoach-container .finish-btn.disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  background: var(--select-coach-btn-bg);
+}
 
 .selectCoach-container .follow-btn.selected {
   background: var(--select-coach-btn-focus);
@@ -162,6 +169,14 @@
   background: var(--select-coach-btn-focus);
 }
 
+@media (max-height: 750px) {
+  .selectCoach-container {
+    padding-top: 40px;
+    padding-bottom: 80px;
+    overflow-y: auto;
+  }
+}
+
 /* 📱 Small screens */
 @media (max-width: 600px) {
   .selectCoach-container .selectCoach-card {
@@ -183,5 +198,43 @@
   .selectCoach-container .coach-item {
     background: var(--select-coach-card-bg);
     border-radius: 14px;
+  }
+}
+
+/* 📱 Small phones (max-width: 420px) */
+@media (max-width: 420px) {
+  .selectCoach-container {
+    padding: 30px 15px;
+  }
+
+  .selectCoach-container .bottom-buttons {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+    margin-top: 40px;
+    margin-bottom: 40px;
+  }
+
+  .selectCoach-container .back-btn,
+  .selectCoach-container .finish-btn {
+    flex: none;
+    width: 45%;
+    padding: 10px 0;
+    font-size: 14px;
+  }
+
+  .selectCoach-container .back-btn {
+    background: none;
+    border: none;
+    font-weight: 700;
+    color: var(--select-coach-text);
+  }
+
+  .selectCoach-container .finish-btn {
+    background: var(--select-coach-btn-bg);
+    color: var(--select-coach-btn-text);
+    border-radius: 20px;
+    font-weight: 600;
   }
 }
