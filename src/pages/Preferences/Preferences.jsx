@@ -28,7 +28,7 @@ const Preferences = () => {
     <div className="preferences">
       <div className="preferences-container">
         <div className="preferences-card">
-          <div className="step-indicator">Step 4 of 4</div>
+          <div className="step-indicator">Step 4 of 5</div>
 
           <h1>Choose your preferences</h1>
           <p className="preferences-sub">

@@ -1,16 +1,16 @@
 import React from "react";
-import { useSelector } from "react-redux";
 import { Navigate, Outlet } from "react-router-dom";
+import { useSelector } from "react-redux";
 
 const ProtectedRoute = () => {
   const { user } = useSelector((state) => state.auth);
 
-  // 🚨 If not authenticated
+  // 1️⃣ Check login
   if (!user) {
-    return <Navigate to="/" replace />;
+    return <Navigate to="/signin" replace />;
   }
 
-  // ✅ If authenticated and verified
+  // ✅ If all checks pass, render children routes
   return <Outlet />;
 };
 

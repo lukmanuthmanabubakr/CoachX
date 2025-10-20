@@ -75,7 +75,7 @@
 }
 
 /* ⬅️ Back Button */
-.back-btn {
+.register-container .back-btn {
   background-color: #fff3ea;
   border: 1px solid #ffd6b7;
   color: var(--register-focus);
@@ -94,7 +94,7 @@
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08);
 }
 
-.back-btn:hover {
+.register-container .back-btn:hover {
   background-color: var(--register-focus);
   color: #fff;
 }
@@ -348,7 +348,7 @@
     margin-top: 1.5rem;
   }
 
-  .back-btn {
+  .register-container .back-btn {
     top: 1rem;
     left: 1rem;
     width: 38px;

@@ -1,0 +1,187 @@
+.selectCoach-container {
+  min-height: 100vh;
+  background: var(--select-coach-bg);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 40px 20px;
+}
+
+.selectCoach-card {
+  background: var(--select-coach-card-bg);
+  border: 1px solid var(--select-coach-border);
+  border-radius: 20px;
+  padding: 30px 25px;
+  width: 100%;
+  max-width: 700px;
+  text-align: center;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+}
+
+.selectCoach-container .step-indicator {
+  text-align: right;
+  font-size: 14px;
+  color: var(--select-coach-text);
+  margin-bottom: 10px;
+  font-weight: 500;
+}
+
+.selectCoach-container h1 {
+  font-size: 26px;
+  color: var(--select-coach-text);
+  margin-bottom: 5px;
+}
+
+.selectCoach-container .selectCoach-sub {
+  color: var(--select-coach-text);
+  font-size: 15px;
+  margin-bottom: 25px;
+}
+
+.selectCoach-container .coach-list {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  margin-bottom: 25px;
+}
+
+.selectCoach-container .coach-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: var(--select-coach-card-bg);
+  border: 1px solid var(--select-coach-border);
+  border-radius: 14px;
+  padding: 12px 16px;
+  transition: all 0.3s ease;
+}
+
+.selectCoach-container .coach-item:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+}
+
+.selectCoach-container .coach-img {
+  width: 55px;
+  height: 55px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+.selectCoach-container .coach-info {
+  flex: 1;
+  text-align: left;
+  margin-left: 12px;
+}
+
+.selectCoach-container .coach-info h3 {
+  font-size: 16px;
+  color: var(--select-coach-text);
+}
+
+.selectCoach-container .coach-clients {
+  font-size: 13px;
+  color: #777;
+  margin-top: 2px;
+}
+
+.selectCoach-container .coach-rating {
+  color: var(--select-coach-star);
+  font-size: 15px;
+  margin-top: 3px;
+}
+
+.selectCoach-container .star {
+  color: #ccc;
+}
+
+.selectCoach-container .star.filled {
+  color: var(--select-coach-star);
+}
+
+.selectCoach-container .follow-btn {
+  background: var(--select-coach-btn-bg);
+  color: var(--select-coach-btn-text);
+  border: none;
+  border-radius: 20px;
+  padding: 7px 16px;
+  font-size: 14px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.selectCoach-container .follow-btn.selected {
+  background: var(--select-coach-btn-focus);
+}
+
+.selectCoach-container .follow-btn:hover {
+  background: var(--select-coach-btn-focus);
+}
+
+.selectCoach-container .bottom-buttons {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 25px;
+  width: 100%;
+  gap: 12px;
+}
+
+/* Back button — bold text, no bg */
+.selectCoach-container .back-btn {
+  flex: 0.9;
+  background: transparent;
+  border: none;
+  color: var(--select-coach-text);
+  font-weight: 600;
+  font-size: 15px;
+  cursor: pointer;
+  text-align: center;
+  transition: color 0.3s ease;
+}
+
+.selectCoach-container .back-btn:hover {
+  color: var(--select-coach-btn-focus);
+}
+
+/* Finish button — slightly wider with orange bg */
+.selectCoach-container .finish-btn {
+  flex: 1.2;
+  background: var(--select-coach-btn-bg);
+  color: var(--select-coach-btn-text);
+  border: none;
+  border-radius: 25px;
+  padding: 12px 0;
+  font-size: 15px;
+  cursor: pointer;
+  font-weight: 500;
+  transition: background 0.3s ease;
+}
+
+.selectCoach-container .finish-btn:hover {
+  background: var(--select-coach-btn-focus);
+}
+
+/* 📱 Small screens */
+@media (max-width: 600px) {
+  .selectCoach-container .selectCoach-card {
+    background: transparent;
+    border: none;
+    box-shadow: none;
+    padding: 0;
+  }
+
+  .selectCoach-container .selectCoach-container {
+    align-items: flex-start;
+    padding: 20px;
+  }
+
+  .selectCoach-container h1 {
+    font-size: 22px;
+  }
+
+  .selectCoach-container .coach-item {
+    background: var(--select-coach-card-bg);
+    border-radius: 14px;
+  }
+}

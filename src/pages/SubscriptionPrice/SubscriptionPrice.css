@@ -79,7 +79,7 @@
   gap: 1rem;
 }
 
-.back-btn,
+.creator-price .back-btn,
 .save-btn {
   flex: 1;
   padding: 0.75rem;
@@ -90,12 +90,12 @@
   transition: all 0.2s ease;
 }
 
-.back-btn {
+.creator-price .back-btn {
   background: #f5f5f5;
   color: var(--subscription-text);
 }
 
-.back-btn:hover {
+.creator-price .back-btn:hover {
   background: #ececec;
 }
 

@@ -124,12 +124,23 @@ body {
   --loader-bg: rgba(0, 0, 0, 0.1);
 
   /* Subscription price */
-  --subscription-bg: #fff4ed; /* soft light background */
-  --subscription-card-bg: #ffffff; /* clean white card */
-  --subscription-text: #5b514a; /* warm dark brown for text */
-  --subscription-border: #ffd3a6; /* light orange border */
-  --subscription-btn-bg: #ff8b35; /* bright orange button */
-  --subscription-btn-text: #ffffff; /* white text for button */
-  --subscription-btn-focus: #ff781f; /* darker orange on hover/focus */
+  --subscription-bg: #fff4ed;
+  --subscription-card-bg: #ffffff;
+  --subscription-text: #5b514a; 
+  --subscription-border: #ffd3a6;
+  --subscription-btn-bg: #ff8b35; 
+  --subscription-btn-text: #ffffff; 
+  --subscription-btn-focus: #ff781f; 
   --subscription-currency: #ff8b35;
+
+    /* Select Coach */
+  --select-coach-bg: #fff4ed;
+  --select-coach-text: #5b514a;
+  --select-coach-card-bg: #ffffff;
+  --select-coach-border: #ffd3a6;
+  --select-coach-btn-bg: #ff8b35;
+  --select-coach-btn-text: #ffffff;
+  --select-coach-btn-focus: #ff781f;
+  --select-coach-star: #ff8b35;
+
 }

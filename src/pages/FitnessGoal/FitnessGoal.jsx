@@ -39,7 +39,7 @@ const FitnessGoal = () => {
     <div className="fitness-goal">
       <div className="fitness-container">
         <div className="fitness-card">
-          <div className="step-indicator">Step 3 of 4</div>
+          <div className="step-indicator">Step 3 of 5</div>
 
           <h1>What’s your fitness goal?</h1>
           <p className="fitness-sub">

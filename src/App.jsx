@@ -20,7 +20,6 @@ import GetUser from "./pages/GetUser/GetUser";
 import SignIn from "./pages/SignIn/SignIn";
 import ForgetPass from "./pages/ForgetPass/ForgetPass";
 import ResetPass from "./pages/ResetPass/ResetPass";
-import ProtectedRoute from "./components/Protect/ProtectedRoute";
 import PageLoader from "./components/PageLoader/PageLoader";
 import UploadWelcomeImage from "./pages/UploadWelcomeImage/UploadWelcomeImage";
 import CheckSignPage from "./components/CheckSignPage/CheckSignPage";
@@ -30,6 +29,10 @@ import SignupCompleted from "./pages/SignupCompleted/SignupCompleted";
 import Preferences from "./pages/Preferences/Preferences";
 import Category from "./pages/Category/Category";
 import SubscriptionPrice from "./pages/SubscriptionPrice/SubscriptionPrice";
+import CheckGender from "./components/Protect/CheckGender";
+import CheckFitnessGoal from "./components/Protect/CheckFitnessGoal";
+import ProtectedRoute from "./components/Protect/ProtectedRoute";
+import FollowTopMember from "./pages/FollowTopMember/FollowTopMember";
 
 const App = () => {
   const [showWelcome, setShowWelcome] = useState(true);
@@ -37,8 +40,6 @@ const App = () => {
   const navigate = useNavigate();
   const location = useLocation();
   const dispatch = useDispatch();
-
-  const { user, isVerified } = useSelector((state) => state.auth); // ✅ NEW
 
   // Load current user on app mount
   useEffect(() => {
@@ -150,21 +151,23 @@ const App = () => {
             </motion.div>
           }
         />
-        <Route element={<ProtectedRoute />}>
-          <Route
-            path="/get-user"
-            element={
-              <motion.div
-                initial={{ opacity: 0, y: 50 }}
-                animate={{ opacity: 1, y: 0 }}
-                exit={{ opacity: 0, y: -50 }}
-                transition={{ duration: 0.5 }}
-              >
-                {/* <PageLoader /> */}
-                <GetUser />
-              </motion.div>
-            }
-          />
+        <Route element={<CheckGender />}>
+          <Route element={<CheckFitnessGoal />}>
+            <Route
+              path="/get-user"
+              element={
+                <motion.div
+                  initial={{ opacity: 0, y: 50 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={{ opacity: 0, y: -50 }}
+                  transition={{ duration: 0.5 }}
+                >
+                  {/* <PageLoader /> */}
+                  <GetUser />
+                </motion.div>
+              }
+            />
+          </Route>
         </Route>
         <Route
           path="/signin"
@@ -220,7 +223,7 @@ const App = () => {
             }
           />
         </Route>
-        <Route element={<ProtectedRoute />}>
+        <Route element={<CheckGender />}>
           <Route
             path="/select-gender"
             element={
@@ -235,7 +238,7 @@ const App = () => {
             }
           />
         </Route>
-        <Route element={<ProtectedRoute />}>
+        <Route element={<CheckGender />}>
           <Route
             path="/fitness-goal"
             element={
@@ -274,6 +277,19 @@ const App = () => {
               transition={{ duration: 0.5 }}
             >
               <Preferences />
+            </motion.div>
+          }
+        />
+        <Route
+          path="/select-coach"
+          element={
+            <motion.div
+              initial={{ opacity: 0, y: 50 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -50 }}
+              transition={{ duration: 0.5 }}
+            >
+              <FollowTopMember />
             </motion.div>
           }
         />

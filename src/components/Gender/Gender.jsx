@@ -30,7 +30,7 @@ const Gender = () => {
     <div className="gender">
       <div className="gender-container">
         <div className="gender-card">
-          <div className="step-indicator">Step 2 of 4</div>
+          <div className="step-indicator">Step 2 of 5</div>
 
           <h1>What’s your gender?</h1>
           <p className="gender-sub">
