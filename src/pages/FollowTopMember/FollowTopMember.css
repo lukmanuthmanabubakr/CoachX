@@ -9,10 +9,11 @@
 }
 
 .selectCoach-card {
+  position: relative; /* 👈 enables absolute positioning inside */
   background: var(--select-coach-card-bg);
   border: 1px solid var(--select-coach-border);
   border-radius: 20px;
-  padding: 30px 25px;
+  padding: 40px 25px 30px; /* extra top padding for the step indicator */
   width: 100%;
   max-width: 700px;
   text-align: center;
@@ -20,11 +21,15 @@
 }
 
 .selectCoach-container .step-indicator {
-  text-align: right;
-  font-size: 14px;
-  color: var(--select-coach-text);
-  margin-bottom: 10px;
-  font-weight: 500;
+  position: absolute;
+  top: 15px;
+  right: 20px;
+  color: var(--select-coach-btn-bg);
+  font-size: 13px;
+  font-weight: 600;
+  padding: 4px 12px;
+  border-radius: 16px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
 }
 
 .selectCoach-container h1 {
@@ -183,6 +188,7 @@
     background: transparent;
     border: none;
     box-shadow: none;
+    margin-top: 0;
     padding: 0;
   }
 
@@ -199,6 +205,19 @@
     background: var(--select-coach-card-bg);
     border-radius: 14px;
   }
+  .selectCoach-container .step-indicator {
+    position: static; /* remove absolute positioning */
+    display: block;
+    text-align: right; /* align to right outside card */
+    margin-bottom: 10px;
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--select-coach-btn-bg);
+    background: transparent;
+    box-shadow: none;
+    padding: 0;
+  }
+
 }
 
 /* 📱 Small phones (max-width: 420px) */
