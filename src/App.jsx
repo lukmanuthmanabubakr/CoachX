@@ -34,6 +34,8 @@ import CheckFitnessGoal from "./components/Protect/CheckFitnessGoal";
 import ProtectedRoute from "./components/Protect/ProtectedRoute";
 import FollowTopMember from "./pages/FollowTopMember/FollowTopMember";
 
+
+
 const App = () => {
   const [showWelcome, setShowWelcome] = useState(true);
   const [fadeOut, setFadeOut] = useState(false);

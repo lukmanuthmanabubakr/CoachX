@@ -13,13 +13,13 @@ const SignIn = () => {
   const [form, setForm] = useState({ email: "", password: "" });
   const [showPassword, setShowPassword] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
+  const [navigated, setNavigated] = useState(false);
 
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
-  const { user, isVerified, isLoading, isError, isSuccess, message } = useSelector(
-    (state) => state.auth
-  );
+  const { user, isVerified, isLoading, isError, isSuccess, message } =
+    useSelector((state) => state.auth);
 
   // Handle input change
   const handleChange = (e) => {
@@ -36,18 +36,30 @@ const SignIn = () => {
     }
   };
 
+  // useEffect(() => {
+  //   if (isSuccess && user) {
+  //     navigate("/get-user");
+  //   }
+
+  //   if (isError) {
+  //     setErrorMessage(message);
+  //   }
+
+  //   dispatch(reset());
+  // }, [isSuccess, isError, user, message, dispatch, navigate]);
+
   useEffect(() => {
-    if (isSuccess && user) {
+    if (isSuccess && user && !navigated) {
+      setNavigated(true);
       navigate("/get-user");
+      setTimeout(() => dispatch(reset()), 600);
     }
 
     if (isError) {
-      setErrorMessage(message);
+      setErrorMessage(message || "Login failed. Please try again.");
+      setTimeout(() => dispatch(reset()), 800);
     }
-
-    dispatch(reset());
-  }, [isSuccess, isError, user, message, dispatch, navigate]);
-
+  }, [isSuccess, user, isError, message, dispatch, navigate, navigated]);
 
   return (
     <motion.div

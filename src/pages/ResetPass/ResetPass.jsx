@@ -13,6 +13,7 @@ const ResetPass = () => {
   const [confirmPassword, setConfirmPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirm, setShowConfirm] = useState(false);
+  const [handled, setHandled] = useState(false);
 
   // Option 2: One line
   const { "reset-token": token } = useParams();
@@ -57,19 +58,37 @@ const ResetPass = () => {
     dispatch(resetPassword({ token, passwordData }));
   };
 
+  // useEffect(() => {
+  //   if (isSuccess) {
+  //     setNewPassword("");
+  //     setConfirmPassword("");
+  //     dispatch(reset());
+  //     navigate("/signin"); // redirect to login after successful reset
+  //   }
+
+  //   if (isError) {
+  //     console.error("Reset password error:", message);
+  //     dispatch(reset());
+  //   }
+  // }, [isSuccess, isError, message, dispatch, navigate]);
+
   useEffect(() => {
-    if (isSuccess) {
+    if (isSuccess && !handled) {
+      setHandled(true);
       setNewPassword("");
       setConfirmPassword("");
-      dispatch(reset());
-      navigate("/signin"); // redirect to login after successful reset
+      setTimeout(() => {
+        dispatch(reset());
+        navigate("/signin");
+      }, 600);
     }
 
-    if (isError) {
+    if (isError && !handled) {
+      setHandled(true);
       console.error("Reset password error:", message);
-      dispatch(reset());
+      setTimeout(() => dispatch(reset()), 800);
     }
-  }, [isSuccess, isError, message, dispatch, navigate]);
+  }, [isSuccess, isError, message, dispatch, navigate, handled]);
 
   return (
     <div className="reset-container">
