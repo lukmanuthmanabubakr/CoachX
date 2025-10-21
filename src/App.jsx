@@ -34,8 +34,6 @@ import CheckFitnessGoal from "./components/Protect/CheckFitnessGoal";
 import ProtectedRoute from "./components/Protect/ProtectedRoute";
 import FollowTopMember from "./pages/FollowTopMember/FollowTopMember";
 
-
-
 const App = () => {
   const [showWelcome, setShowWelcome] = useState(true);
   const [fadeOut, setFadeOut] = useState(false);
@@ -43,22 +41,145 @@ const App = () => {
   const location = useLocation();
   const dispatch = useDispatch();
 
-  // Load current user on app mount
+  const { user, isLoading } = useSelector((state) => state.auth);
+
+  // ✅ Fetch current user on mount
   useEffect(() => {
-    if (location.pathname === "/") {
-      const fadeTimer = setTimeout(() => setFadeOut(true), 2500);
-      const hideTimer = setTimeout(() => setShowWelcome(false), 3500);
+    dispatch(getMe());
+  }, [dispatch]);
 
-      return () => {
-        clearTimeout(fadeTimer);
-        clearTimeout(hideTimer);
-      };
+  // ✅ Welcome screen animation
+  useEffect(() => {
+    const fadeTimer = setTimeout(() => setFadeOut(true), 2000);
+    const hideTimer = setTimeout(() => setShowWelcome(false), 3000);
+    return () => {
+      clearTimeout(fadeTimer);
+      clearTimeout(hideTimer);
+    };
+  }, []);
+
+  // ✅ Redirect based on login state (only after welcome finishes)
+  // useEffect(() => {
+  //   if (showWelcome || isLoading) return;
+
+  //   if (user) {
+  //     if (["/", "/home", "/signin", "/signup"].includes(location.pathname)) {
+  //       navigate("/get-user", { replace: true });
+  //     }
+  //   } else {
+  //     if (
+  //       location.pathname.startsWith("/get-user") ||
+  //       location.pathname.startsWith("/upload-welcome-image") ||
+  //       location.pathname.startsWith("/subscription-price") ||
+  //       location.pathname.startsWith("/creators-categories")
+  //     ) {
+  //       navigate("/home", { replace: true });
+  //     }
+  //   }
+  // }, [user, isLoading, showWelcome, location.pathname, navigate]);
+
+  // useEffect(() => {
+  //   if (showWelcome || isLoading) return;
+
+  //   // Check if user exists
+  //   if (user) {
+  //     const verified = user.isVerified || user.is_verified; // ✅ handles both naming styles
+
+  //     // If user exists but not verified, always go to verification page
+  //     if (!verified && location.pathname !== "/check-mail-verification") {
+  //       navigate("/check-mail-verification", { replace: true });
+  //       return;
+  //     }
+
+  //     // If user is verified and currently on any of the base routes, redirect to get-user
+  //     if (
+  //       verified &&
+  //       [
+  //         "/",
+  //         "/home",
+  //         "/signin",
+  //         "/signup",
+  //         "/check-mail-verification",
+  //       ].includes(location.pathname)
+  //     ) {
+  //       navigate("/get-user", { replace: true });
+  //     }
+  //   } else {
+  //     // If no user and on restricted route, send to home
+  //     if (
+  //       location.pathname.startsWith("/get-user") ||
+  //       location.pathname.startsWith("/upload-welcome-image") ||
+  //       location.pathname.startsWith("/subscription-price") ||
+  //       location.pathname.startsWith("/creators-categories")
+  //     ) {
+  //       navigate("/home", { replace: true });
+  //     }
+  //   }
+  // }, [user, isLoading, showWelcome, location.pathname, navigate]);
+
+  useEffect(() => {
+    if (showWelcome || isLoading) return;
+
+    if (user) {
+      const verified = user.isVerified || user.is_verified;
+
+      // If the user is NOT verified
+      if (!verified) {
+        // 🟢 If they just SIGNED UP (came from /signup)
+        if (
+          location.pathname === "/signup" ||
+          location.pathname === "/check-mail-verification"
+        ) {
+          navigate("/check-mail-verification", { replace: true });
+        }
+        // 🔵 If they SIGNED IN but email not verified → go to email-not-verified
+        else if (
+          location.pathname === "/signin" ||
+          location.pathname === "/email-not-verified"
+        ) {
+          navigate("/email-not-verified", { replace: true });
+        }
+        // 🚫 Prevent them from accessing protected pages while unverified
+        else if (
+          location.pathname.startsWith("/get-user") ||
+          location.pathname.startsWith("/upload-welcome-image") ||
+          location.pathname.startsWith("/subscription-price") ||
+          location.pathname.startsWith("/creators-categories")
+        ) {
+          navigate("/email-not-verified", { replace: true });
+        }
+        return;
+      }
+
+      // ✅ Verified user — redirect to dashboard if on base routes
+      if (
+        verified &&
+        [
+          "/",
+          "/home",
+          "/signin",
+          "/signup",
+          "/check-mail-verification",
+          "/email-not-verified",
+        ].includes(location.pathname)
+      ) {
+        navigate("/get-user", { replace: true });
+      }
     } else {
-      setShowWelcome(false);
+      // ❌ Not logged in — block protected routes
+      if (
+        location.pathname.startsWith("/get-user") ||
+        location.pathname.startsWith("/upload-welcome-image") ||
+        location.pathname.startsWith("/subscription-price") ||
+        location.pathname.startsWith("/creators-categories")
+      ) {
+        navigate("/home", { replace: true });
+      }
     }
-  }, [location.pathname]);
+  }, [user, isLoading, showWelcome, location.pathname, navigate]);
 
-  if (location.pathname === "/" && showWelcome) {
+  // ✅ Show welcome logo first on *every app load*
+  if (showWelcome) {
     return <WelcomeLogo fadeOut={fadeOut} />;
   }
 
@@ -114,32 +235,36 @@ const App = () => {
             </motion.div>
           }
         />
-        <Route
-          path="/check-mail-verification"
-          element={
-            <motion.div
-              initial={{ opacity: 0, y: 50 }}
-              animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: -50 }}
-              transition={{ duration: 0.5 }}
-            >
-              <CheckMailVer />
-            </motion.div>
-          }
-        />
-        <Route
-          path="/email-not-verified"
-          element={
-            <motion.div
-              initial={{ opacity: 0, y: 50 }}
-              animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: -50 }}
-              transition={{ duration: 0.5 }}
-            >
-              <CheckSignPage />
-            </motion.div>
-          }
-        />
+        <Route element={<ProtectedRoute />}>
+          <Route
+            path="/check-mail-verification"
+            element={
+              <motion.div
+                initial={{ opacity: 0, y: 50 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: -50 }}
+                transition={{ duration: 0.5 }}
+              >
+                <CheckMailVer />
+              </motion.div>
+            }
+          />
+        </Route>
+        <Route element={<ProtectedRoute />}>
+          <Route
+            path="/email-not-verified"
+            element={
+              <motion.div
+                initial={{ opacity: 0, y: 50 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: -50 }}
+                transition={{ duration: 0.5 }}
+              >
+                <CheckSignPage />
+              </motion.div>
+            }
+          />
+        </Route>
         <Route
           path="/verify-email/:verificationToken"
           element={
@@ -225,7 +350,7 @@ const App = () => {
             }
           />
         </Route>
-        <Route element={<CheckGender />}>
+        <Route element={<ProtectedRoute />}>
           <Route
             path="/select-gender"
             element={
@@ -333,6 +458,7 @@ const App = () => {
             }
           />
         </Route>
+        <Route path="*" element={<Navigate to="/home" replace />} />
       </Routes>
     </AnimatePresence>
   );
