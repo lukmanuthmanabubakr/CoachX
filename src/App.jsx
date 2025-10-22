@@ -58,73 +58,14 @@ const App = () => {
     };
   }, []);
 
-  // ✅ Redirect based on login state (only after welcome finishes)
-  // useEffect(() => {
-  //   if (showWelcome || isLoading) return;
-
-  //   if (user) {
-  //     if (["/", "/home", "/signin", "/signup"].includes(location.pathname)) {
-  //       navigate("/get-user", { replace: true });
-  //     }
-  //   } else {
-  //     if (
-  //       location.pathname.startsWith("/get-user") ||
-  //       location.pathname.startsWith("/upload-welcome-image") ||
-  //       location.pathname.startsWith("/subscription-price") ||
-  //       location.pathname.startsWith("/creators-categories")
-  //     ) {
-  //       navigate("/home", { replace: true });
-  //     }
-  //   }
-  // }, [user, isLoading, showWelcome, location.pathname, navigate]);
-
-  // useEffect(() => {
-  //   if (showWelcome || isLoading) return;
-
-  //   // Check if user exists
-  //   if (user) {
-  //     const verified = user.isVerified || user.is_verified; // ✅ handles both naming styles
-
-  //     // If user exists but not verified, always go to verification page
-  //     if (!verified && location.pathname !== "/check-mail-verification") {
-  //       navigate("/check-mail-verification", { replace: true });
-  //       return;
-  //     }
-
-  //     // If user is verified and currently on any of the base routes, redirect to get-user
-  //     if (
-  //       verified &&
-  //       [
-  //         "/",
-  //         "/home",
-  //         "/signin",
-  //         "/signup",
-  //         "/check-mail-verification",
-  //       ].includes(location.pathname)
-  //     ) {
-  //       navigate("/get-user", { replace: true });
-  //     }
-  //   } else {
-  //     // If no user and on restricted route, send to home
-  //     if (
-  //       location.pathname.startsWith("/get-user") ||
-  //       location.pathname.startsWith("/upload-welcome-image") ||
-  //       location.pathname.startsWith("/subscription-price") ||
-  //       location.pathname.startsWith("/creators-categories")
-  //     ) {
-  //       navigate("/home", { replace: true });
-  //     }
-  //   }
-  // }, [user, isLoading, showWelcome, location.pathname, navigate]);
-
   useEffect(() => {
     if (showWelcome || isLoading) return;
 
     if (user) {
-      const verified = user.isVerified || user.is_verified;
+      const verified = user.is_verified || user.isVerified;
 
       // If the user is NOT verified
-      if (!verified) {
+      if (verified === false) {
         // 🟢 If they just SIGNED UP (came from /signup)
         if (
           location.pathname === "/signup" ||

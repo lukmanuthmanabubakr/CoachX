@@ -13,8 +13,14 @@ const PageLoader = ({ isVisible = true }) => {
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           exit={{ opacity: 0 }}
+          transition={{ duration: 0.3 }}
         >
-          <div className="loader-bars">
+          <motion.div
+            className="loader-bars"
+            initial={{ scale: 0.95, opacity: 0 }}
+            animate={{ scale: 1, opacity: 1 }}
+            transition={{ duration: 0.4, ease: "easeOut" }}
+          >
             {bars.map((bar) => (
               <motion.div
                 key={bar}
@@ -29,7 +35,7 @@ const PageLoader = ({ isVisible = true }) => {
                 }}
               />
             ))}
-          </div>
+          </motion.div>
         </motion.div>
       )}
     </AnimatePresence>
